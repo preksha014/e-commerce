@@ -10,4 +10,7 @@ Route::view('/login','user.login');
 Route::view('/signup','user.signup');
 Route::view('/cart','user.cart');
 
-Route::view('/dashboard','dashboard.index');
+Route::prefix('/dashboard')->group(function(){
+    Route::view('/','dashboard.index');
+    Route::view('/products','dashboard.products');
+});
