@@ -9,3 +9,5 @@ Route::view('/contact','user.contact');
 Route::view('/login','user.login');
 Route::view('/signup','user.signup');
 Route::view('/cart','user.cart');
+
+Route::view('/dashboard','dashboard.index');
