@@ -39,23 +39,13 @@
           />
         </form>
 
-        <div class="mt-4 flex justify-between">
-          <form class="flex gap-2">
-            <input type="checkbox" />
-            <label for="checkbox">
-              I have read and agree with
-              <a href="#" class="text-violet-900">terms &amp; conditions</a>
-            </label>
-          </form>
-        </div>
-
         <button class="my-5 w-full bg-violet-900 py-2 text-white">
           CREATE ACCOUNT
         </button>
 
         <p class="text-center">
           Already have an account?
-          <a href="login.html" class="text-violet-900">Login now</a>
+          <a href="/login" class="text-violet-900">Login now</a>
         </p>
       </div>
     </section>

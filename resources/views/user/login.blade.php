@@ -25,21 +25,13 @@
             />
           </form>
 
-          <div class="mt-4 flex justify-between">
-            <form class="flex gap-2">
-              <input type="checkbox" />
-              <label for="checkbox">Remember me</label>
-            </form>
-            <a href="#" class="text-violet-900">Forgot password</a>
-          </div>
-
           <button class="my-5 w-full bg-violet-900 py-2 text-white">
             LOGIN
           </button>
 
           <p class="text-center">
             Don`t have account?
-            <a href="sign-up.html" class="text-violet-900">Register now</a>
+            <a href="/signup" class="text-violet-900">Register now</a>
           </p>
         </div>
       </section>

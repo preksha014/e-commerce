@@ -253,7 +253,7 @@
                 <p>$1280</p>
               </div>
 
-              <a href="checkout-address.html">
+              <a href="/checkout-address">
                 <button class="w-full bg-violet-900 px-5 py-2 text-white">
                   Proceed to checkout
                 </button>
