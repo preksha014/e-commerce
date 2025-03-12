@@ -9,11 +9,13 @@
             <p>Welcome back, customer!</p>
           </div>
 
-          <form class="mt-6 flex flex-col">
+          <form class="mt-6 flex flex-col" method="POST" action="/login">
+            @csrf
             <label for="email">Email Address</label>
             <input
               class="mb-3 mt-3 border px-4 py-2"
               type="email"
+              name="email"
               placeholder="youremail@domain.com"
             />
 
@@ -21,13 +23,15 @@
             <input
               class="mt-3 border px-4 py-2"
               type="password"
+              name="password"
               placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
             />
+            <button class="my-5 w-full bg-violet-900 py-2 text-white">
+              LOGIN
+            </button>
           </form>
 
-          <button class="my-5 w-full bg-violet-900 py-2 text-white">
-            LOGIN
-          </button>
+          
 
           <p class="text-center">
             Don`t have account?

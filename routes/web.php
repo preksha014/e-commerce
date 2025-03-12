@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LoginController as AdminLogin;
+use App\Http\Controllers\User\LoginController as UserLogin;
+use App\Http\Controllers\User\SessionController as UserRegister;
 
 Route::view('/','user.home');
 Route::view('/catalog','user.catalog');
 Route::view('/about','user.about');
 Route::view('/contact','user.contact');
-Route::view('/login','user.login');
-Route::view('/signup','user.signup');
 Route::view('/cart','user.cart');
 Route::view('/product-overview','user.product-overview');
 
@@ -23,4 +24,20 @@ Route::prefix('/dashboard')->group(function(){
     Route::view('/customers','dashboard.customers');
     Route::view('/reports','dashboard.reports');
     Route::view('/logout','dashboard.index');
+});
+
+// Route::middleware("guest")->group(function() {
+    Route::get("login", [UserLogin::class, "index"]);
+    Route::post("login", [UserLogin::class, "store"]);
+    Route::get("signup", [UserRegister::class, "index"]);
+    Route::post("signup", [UserRegister::class, "store"]);
+// });
+
+Route::prefix("admin")->group(function() {
+
+    // Route::middleware("guest")->group(function() {
+        Route::get("login", [AdminLogin::class, "index"]);
+        Route::post("login", [AdminLogin::class, "store"]);
+    // });
+
 });

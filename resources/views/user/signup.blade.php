@@ -9,11 +9,13 @@
           <p>Register for new customer</p>
         </div>
 
-        <form class="mt-6 flex flex-col">
+        <form class="mt-6 flex flex-col" method="POST" action="/signup">
+          @csrf
           <label for="name">Full Name</label>
           <input
             class="mb-3 mt-3 border px-4 py-2"
             type="text"
+            name="name"
             placeholder="Bogdan Bulakh"
           />
 
@@ -21,27 +23,31 @@
           <input
             class="mt-3 border px-4 py-2"
             type="email"
+            name="email"
             placeholder="user@mail.com"
           />
 
-          <label class="mt-5" for="email">Password</label>
+          <label class="mt-5" for="password">Password</label>
           <input
             class="mt-3 border px-4 py-2"
             type="password"
+            name="password"
             placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
           />
 
-          <label class="mt-5" for="email">Confirm password</label>
+          <label class="mt-5" for="password_confirmation">Confirm password</label>
           <input
             class="mt-3 border px-4 py-2"
             type="password"
+            name="password_confirmation"
             placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
           />
+
+          <button class="my-5 w-full bg-violet-900 py-2 text-white">
+            CREATE ACCOUNT
+          </button>
+
         </form>
-
-        <button class="my-5 w-full bg-violet-900 py-2 text-white">
-          CREATE ACCOUNT
-        </button>
 
         <p class="text-center">
           Already have an account?
