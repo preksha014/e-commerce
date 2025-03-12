@@ -1,78 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="bg-violet-900 text-white w-64 p-5">
-            <h1 class="text-3xl font-bold mb-6">MayBell</h1>
-            <nav>
-                <a href="/dashboard" class="block py-2 px-4 bg-violet-800 rounded-md">Dashboard</a>
-                <a href="/dashboard/products" class="block py-2 px-4 mt-2">Products</a>
-                <a href="#" class="block py-2 px-4 mt-2">Orders</a>
-                <a href="#" class="block py-2 px-4 mt-2">Customers</a>
-                <a href="#" class="block py-2 px-4 mt-2">Reports</a>
-                <a href="#" class="block py-2 px-4 mt-2">Settings</a>
-            </nav>
+<x-dashboard-layout>
+    <x-slot:heading>Admin Dashboard</x-slot:heading>
+    <!-- Main Content -->
+    <div class="flex-grow p-8">
+        <!-- Summary Cards -->
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold text-gray-700">Total Products</h3>
+                <p class="text-2xl text-gray-600">120</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold text-gray-700">Total Orders</h3>
+                <p class="text-2xl text-gray-600">350</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold text-gray-700">Total Customers</h3>
+                <p class="text-2xl text-gray-600">1,200</p>
+            </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="flex-grow p-8">
+        <!-- All Products Table -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold text-gray-700 mb-4">All Products</h3>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-violet-200 text-left">
+                        <th class="py-3 px-4 border border-gray-300">Product Name</th>
+                        <th class="py-3 px-4 border border-gray-300">Category</th>
+                        <th class="py-3 px-4 border border-gray-300">Price</th>
+                        <th class="py-3 px-4 border border-gray-300">Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="even:bg-gray-100">
+                        <td class="py-3 px-4 border border-gray-300">Smartphone</td>
+                        <td class="py-3 px-4 border border-gray-300">Electronics</td>
+                        <td class="py-3 px-4 border border-gray-300">$699</td>
+                        <td class="py-3 px-4 border border-gray-300">50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-            <!-- Stats Section -->
-            <div class="grid grid-cols-3 gap-4">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold">Clients</h3>
-                    <p class="text-2xl">512</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold">Sales</h3>
-                    <p class="text-2xl">$7,770</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold">Performance</h3>
-                    <p class="text-2xl">256%</p>
-                </div>
-            </div>
-
-            <!-- Clients Table -->
-            <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-bold mb-4">Clients</h3>
-                <table class="w-full table-auto">
-                    <thead>
-                        <tr class="bg-violet-200">
-                            <th class="py-2 px-4">Name</th>
-                            <th class="py-2 px-4">Company</th>
-                            <th class="py-2 px-4">City</th>
-                            <th class="py-2 px-4">Progress</th>
-                            <th class="py-2 px-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="py-2 px-4">Rebecca Bauch</td>
-                            <td class="py-2 px-4">Daugherty-Daniel</td>
-                            <td class="py-2 px-4">South Cory</td>
-                            <td class="py-2 px-4">
-                                <div class="bg-gray-200 w-full h-2 rounded">
-                                    <div class="bg-green-500 w-3/4 h-2 rounded"></div>
-                                </div>
-                            </td>
-                            <td class="py-2 px-4">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded-md">View</button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded-md ml-2">Delete</button>
-                            </td>
-                        </tr>
-                        <!-- More Rows Here -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- Order Status Table -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold text-gray-700 mb-4">Order Status</h3>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-violet-200 text-left">
+                        <th class="py-3 px-4 border border-gray-300">Order ID</th>
+                        <th class="py-3 px-4 border border-gray-300">Customer</th>
+                        <th class="py-3 px-4 border border-gray-300">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="even:bg-gray-100">
+                        <td class="py-3 px-4 border border-gray-300">#1001</td>
+                        <td class="py-3 px-4 border border-gray-300">John Doe</td>
+                        <td class="py-3 px-4 border border-gray-300">Shipped</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</body>
-</html>
+</x-dashboard-layout>

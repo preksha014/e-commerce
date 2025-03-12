@@ -13,4 +13,8 @@ Route::view('/cart','user.cart');
 Route::prefix('/dashboard')->group(function(){
     Route::view('/','dashboard.index');
     Route::view('/products','dashboard.products');
+    Route::view('/orders','dashboard.orders');
+    Route::view('/customers','dashboard.customers');
+    Route::view('/reports','dashboard.reports');
+    Route::view('/logout','dashboard.index');
 });
