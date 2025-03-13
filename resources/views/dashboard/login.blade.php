@@ -31,6 +31,5 @@
             </button>
         </form>
     </div>
-    
 </section>
 <!-- /Login Card  -->

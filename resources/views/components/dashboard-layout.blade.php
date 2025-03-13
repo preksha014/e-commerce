@@ -22,10 +22,11 @@
                 <nav class="flex flex-col space-y-4 w-full">
                     <x-nav-link href="/dashboard" :active="request()->is('dashboard')">Dashboard</x-nav-link>
                     <x-nav-link href="/dashboard/products" :active="request()->is('dashboard/products')">Products</x-nav-link>
+                    <x-nav-link href="/dashboard/categories" :active="request()->is('dashboard/categories')">Category</x-nav-link>
                     <x-nav-link href="/dashboard/orders" :active="request()->is('dashboard/orders')">Orders</x-nav-link>
                     <x-nav-link href="/dashboard/customers" :active="request()->is('dashboard/customers')">Customers</x-nav-link>
                     <x-nav-link href="/dashboard/reports" :active="request()->is('dashboard/reports')">Reports</x-nav-link>
-                    <x-nav-link href="/admin/logout" :active="request()->is('/admin/logout')">Logout</x-nav-link>
+                    <x-nav-link href="/logout" :active="request()->is('/logout')">Logout</x-nav-link>
                 </nav>                
             </div>
             {{ $slot }}

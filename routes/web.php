@@ -17,14 +17,14 @@ Route::view('/checkout-payment', 'user.checkout-payment');
 Route::view('/checkout-review', 'user.checkout-review');
 Route::view('/checkout-confirmation', 'user.checkout-confirmation');
 
-Route::prefix('/dashboard')->group(function () {
-    Route::view('/', 'dashboard.index');
-    Route::view('/products', 'dashboard.products');
-    Route::view('/orders', 'dashboard.orders');
-    Route::view('/customers', 'dashboard.customers');
-    Route::view('/reports', 'dashboard.reports');
-    // Route::view('/logout', 'dashboard.index');
-});
+// Route::prefix('/dashboard')->group(function () {
+//     Route::view('/', 'dashboard.index');
+//     Route::view('/products', 'dashboard.products');
+//     Route::view('/categories', 'dashboard.category.create');
+//     Route::view('/orders', 'dashboard.orders');
+//     Route::view('/customers', 'dashboard.customers');
+//     Route::view('/reports', 'dashboard.reports');
+// });
 
 
 Route::middleware('guest:customer')->group(function () {
@@ -44,7 +44,17 @@ Route::prefix("admin")->group(function () {
         Route::get("login", [AdminLogin::class, "index"])->name('login');
         Route::post("login", [AdminLogin::class, "store"]);
     });
-    Route::middleware('auth:admin')->group(function () {
-        Route::get("logout", [AdminLogin::class, "logout"]);
+    
+});
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get("logout", [AdminLogin::class, "logout"]);
+    Route::prefix('/dashboard')->group(function () {
+        Route::view('/', 'dashboard.index');
+        Route::view('/products', 'dashboard.products');
+        Route::view('/categories', 'dashboard.category.create');
+        Route::view('/orders', 'dashboard.orders');
+        Route::view('/customers', 'dashboard.customers');
+        Route::view('/reports', 'dashboard.reports');
     });
 });
