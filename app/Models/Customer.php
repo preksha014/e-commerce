@@ -12,5 +12,4 @@ class Customer extends Authenticatable
     use Notifiable;
     protected $table = "customers";
 
-    protected $guarded=[];
 }

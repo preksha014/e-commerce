@@ -10,5 +10,4 @@ class Admin extends Authenticatable {
     use Notifiable;
     use HasFactory;
     protected $table='admin';
-    protected $guarded=[];
 }

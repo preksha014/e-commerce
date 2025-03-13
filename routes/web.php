@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\User\SessionController as UserLogin;
@@ -43,18 +44,15 @@ Route::prefix("admin")->group(function () {
     Route::middleware('guest:admin')->group(function () {
         Route::get("login", [AdminLogin::class, "index"])->name('login');
         Route::post("login", [AdminLogin::class, "store"]);
-    });
-    
-});
-
-Route::middleware('auth:admin')->group(function () {
-    Route::get("logout", [AdminLogin::class, "logout"]);
-    Route::prefix('/dashboard')->group(function () {
-        Route::view('/', 'dashboard.index');
+    });     
+    Route::middleware('auth:admin')->group(function () {
+        Route::view('/dashboard', 'dashboard.index')->name("admin.dashboard");
         Route::view('/products', 'dashboard.products');
-        Route::view('/categories', 'dashboard.category.create');
+        Route::get('/category', [CategoryController::class, 'index']);
+        Route::get('/category/create', [CategoryController::class, 'create']);
         Route::view('/orders', 'dashboard.orders');
         Route::view('/customers', 'dashboard.customers');
         Route::view('/reports', 'dashboard.reports');
-    });
+    });    
 });
+Route::get("logout", [AdminLogin::class, "logout"]);

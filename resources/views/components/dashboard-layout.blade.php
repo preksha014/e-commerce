@@ -20,14 +20,13 @@
                 </a>              
                 <!-- Navigation -->
                 <nav class="flex flex-col space-y-4 w-full">
-                    <x-nav-link href="/dashboard" :active="request()->is('dashboard')">Dashboard</x-nav-link>
-                    <x-nav-link href="/dashboard/products" :active="request()->is('dashboard/products')">Products</x-nav-link>
-                    <x-nav-link href="/dashboard/categories" :active="request()->is('dashboard/categories')">Category</x-nav-link>
-                    <x-nav-link href="/dashboard/orders" :active="request()->is('dashboard/orders')">Orders</x-nav-link>
-                    <x-nav-link href="/dashboard/customers" :active="request()->is('dashboard/customers')">Customers</x-nav-link>
-                    <x-nav-link href="/dashboard/reports" :active="request()->is('dashboard/reports')">Reports</x-nav-link>
-                    <x-nav-link href="/logout" :active="request()->is('/logout')">Logout</x-nav-link>
-                </nav>                
+                    <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->is('admin/dashboard')">Dashboard</x-nav-link>
+                    <x-nav-link href="/admin/products" :active="request()->is('admin/products')">Products</x-nav-link>
+                    <x-nav-link href="/admin/category" :active="request()->is('admin/category')">Category</x-nav-link>
+                    <x-nav-link href="/admin/orders" :active="request()->is('admin/orders')">Orders</x-nav-link>
+                    <x-nav-link href="/admin/customers" :active="request()->is('admin/customers')">Customers</x-nav-link>
+                    <x-nav-link href="/admin/reports" :active="request()->is('admin/reports')">Reports</x-nav-link>
+                    <x-nav-link href="/logout" :active="request()->is('/logout')">Logout</x-nav-link>               
             </div>
             {{ $slot }}
         </div>
