@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -29,8 +31,20 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->email);
-        // dd($request->all());
+        $attributes = request()->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (!Auth::guard("admin")->attempt($attributes)) {
+            throw ValidationException::withMessages([
+                'email' => 'Sorry, those credentials do not match.',
+            ]);
+        }
+
+        request()->session()->regenerate();
+
+        return redirect('/dashboard');
 
     }
 
@@ -64,5 +78,11 @@ class LoginController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function logout(){
+        // dd('hello');
+        Auth::guard("admin")->logout();
+        return redirect('/admin/login');
     }
 }

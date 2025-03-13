@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class RegisteredUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +17,7 @@ class LoginController extends Controller
     public function index()
     {
         //
-        return view('user.login');
+        
     }
 
     /**
@@ -22,6 +26,7 @@ class LoginController extends Controller
     public function create()
     {
         //
+        return view('user.signup');
     }
 
     /**
@@ -29,8 +34,23 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+        $attributes = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:customers,email'],
+            'password' => ['required', 'confirmed', Password::min(6)], 
+        ]);
+    
+        // Hash the password before saving
+        $attributes['password'] = bcrypt($attributes['password']);
+    
+        // Create the customer
+        $customer = Customer::create($attributes);
+    
+        // Log in the customer
+        Auth::login($customer);
+    
+        return redirect('/');
+
     }
 
     /**
@@ -39,6 +59,7 @@ class LoginController extends Controller
     public function show(string $id)
     {
         //
+        
     }
 
     /**

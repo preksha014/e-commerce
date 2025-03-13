@@ -25,7 +25,7 @@
                     <x-nav-link href="/dashboard/orders" :active="request()->is('dashboard/orders')">Orders</x-nav-link>
                     <x-nav-link href="/dashboard/customers" :active="request()->is('dashboard/customers')">Customers</x-nav-link>
                     <x-nav-link href="/dashboard/reports" :active="request()->is('dashboard/reports')">Reports</x-nav-link>
-                    <x-nav-link href="/dashboard/logout" :active="request()->is('dashboard/logout')">Logout</x-nav-link>
+                    <x-nav-link href="/admin/logout" :active="request()->is('/admin/logout')">Logout</x-nav-link>
                 </nav>                
             </div>
             {{ $slot }}
