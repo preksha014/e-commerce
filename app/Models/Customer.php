@@ -11,5 +11,6 @@ class Customer extends Authenticatable
     use HasFactory;
     use Notifiable;
     protected $table = "customers";
+    protected $guarded=[];
 
 }

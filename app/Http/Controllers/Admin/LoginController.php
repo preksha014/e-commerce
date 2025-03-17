@@ -44,7 +44,7 @@ class LoginController extends Controller
 
         request()->session()->regenerate();
 
-        return redirect('/admin/dashboard');
+        return redirect('admin/dashboard');
 
     }
 
@@ -83,6 +83,6 @@ class LoginController extends Controller
     public function logout(){
         // dd('hello');
         Auth::guard("admin")->logout();
-        return redirect('/admin/login');
+        return redirect('admin/login');
     }
 }
