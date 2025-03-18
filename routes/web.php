@@ -24,10 +24,6 @@ Route::controller(UserProducts::class)->group(function () {
 });
 
 Route::get('/category/{slug}', [UserCategory::class, 'show'])->name('category.show');
-// Route::controller(Cate::class)->group(function () {
-//     Route::get('/catalog', "index");
-//     Route::get('/product-overview/{slug}', "show")->name('product.show');
-// });
 
 Route::view('/cart', 'user.cart');
 
