@@ -6,7 +6,8 @@
         <!-- Page Header -->
         <div class="flex items-center justify-between">
             <h2 class="text-2xl font-bold text-gray-700">Products Management</h2>
-            <a href="{{ route('admin.product.create') }}" class="bg-blue-500 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
+            <a href="{{ route('admin.product.create') }}"
+                class="bg-blue-500 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
                 Add Product
             </a>
         </div>
@@ -33,24 +34,34 @@
                         <tr class="even:bg-gray-100 text-gray-700">
                             <td class="py-3 px-4 border border-gray-300">{{ $product->name }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->description }}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->size }}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->color }}</td>
+                            <td class="py-3 px-4 border border-gray-300">{{ $product->size}}</td>
+                            <td class="py-3 px-4 border border-gray-300">{{ $product->color}}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->category->name }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->price }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->quantity }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->status }}</td>
                             <td class="py-3 px-4 border border-gray-300">
-                                {{-- <img src="{{ asset('storage/'.$product->images) }}"> --}}
+                                @foreach ($product->images as $image)
+                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Product Image"
+                                        class="w-16 h-16 object-cover">
+                                @endforeach
+
                             </td>
                             <td class="py-3 px-4 border border-gray-300">
-                                <button
-                                    class="bg-green-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-green-600 transition">
+                                <a href="{{ route('admin.product.edit', $product->id) }}"
+                                    class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition">
                                     Edit
-                                </button>
-                                <button
-                                    class="bg-red-500 text-white px-3 py-1 rounded-md shadow-md ml-2 hover:bg-red-600 transition">
-                                    Delete
-                                </button>
+                                </a>
+                                <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST"
+                                    class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
+                                        onclick="return confirm('Are you sure you want to delete this product?')">
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

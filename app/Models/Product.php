@@ -16,6 +16,8 @@ class Product extends Model
         'description',
         'category_id', // Ensure the foreign key matches the table
         'price',
+        'color',
+        'size', 
         'quantity',
         'status',
         'slug'

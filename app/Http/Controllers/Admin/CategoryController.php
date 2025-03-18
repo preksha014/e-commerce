@@ -15,7 +15,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        // dd($category);
         return view('dashboard.category.index', [
             'categories' => $categories,
         ]);
@@ -26,8 +25,6 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
-
         return view('dashboard.category.create');
     }
 
@@ -36,7 +33,6 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:categories,slug',
@@ -51,31 +47,18 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $slug)
+    public function edit(Category $category)
     {
-        //
-        $category = Category::where('slug', $slug)->firstOrFail();
         return view('dashboard.category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $slug)
+    public function update(Request $request, Category $category)
     {
-        //
-        $category = Category::where('slug', $slug)->firstOrFail();
-
         $attributes = $request->validate([
             'name' => ['required'],
             'image' => ['nullable', 'mimes:png,jpg,webp'],
@@ -98,11 +81,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($slug)
+    public function destroy(Category $category)
     {
-        // Find the category by slug
-        $category = Category::where('slug', $slug)->firstOrFail();
-
         // Delete the category image from storage
         if ($category->image) {
             \Storage::delete('public/' . $category->image);
