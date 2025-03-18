@@ -76,7 +76,17 @@
                         </div>
                     @endif
                 </div>
-                <button type="submit" class="w-full py-2 bg-violet-800 text-white mt-4 text-md">Update Product</button>
+                <div class="flex justify-between mt-4">
+                    <a href="{{ route('admin.product') }}" 
+                        class="px-6 py-2 bg-gray-500 text-white rounded-md shadow-md hover:bg-gray-600 transition duration-200">
+                        Cancel
+                    </a>
+                
+                    <button type="submit" 
+                        class="px-6 py-2 bg-violet-800 text-white rounded-md shadow-md hover:bg-violet-700 transition duration-200">
+                        Update Product
+                    </button>
+                </div>                
             </form>
         </div>
     </div>

@@ -7,8 +7,8 @@
         <div class="flex items-center justify-between">
             <h2 class="text-2xl font-bold text-gray-700">Products Management</h2>
             <a href="{{ route('admin.product.create') }}"
-                class="bg-blue-500 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
-                Add Product
+                class="bg-blue-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
+                + Add Product
             </a>
         </div>
 
@@ -47,7 +47,7 @@
                                 @endforeach
 
                             </td>
-                            <td class="py-3 px-4 border border-gray-300">
+                            <td class="py-3 px-4 space-x-2 border border-gray-300">
                                 <a href="{{ route('admin.product.edit', $product->id) }}"
                                     class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition">
                                     Edit

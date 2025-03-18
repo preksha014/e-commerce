@@ -35,11 +35,11 @@
                                     class="w-32 h-32 object-cover shadow-md border border-gray-300">
                             </td>
                             <td class="py-3 px-4 border border-gray-300 space-x-2">
-                                <a href="{{ route('admin.category.edit', $category->slug) }}"
+                                <a href="{{ route('admin.category.edit', $category->id) }}"
                                     class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
                                     Edit
                                 </a>
-                                <form action="{{ route('admin.category.destroy', $category->slug) }}" method="POST"
+                                <form action="{{ route('admin.category.destroy', $category->id) }}" method="POST"
                                     class="inline">
                                     @csrf
                                     @method('DELETE')

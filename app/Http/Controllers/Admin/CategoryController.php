@@ -14,7 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        // Fetch all categories
         $categories = Category::all();
+
+        // Return view with all categories
         return view('dashboard.category.index', [
             'categories' => $categories,
         ]);
@@ -25,6 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        // Return view for add category form
         return view('dashboard.category.create');
     }
 
@@ -33,16 +37,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate all form inputs
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:categories,slug',
             'image' => 'required|mimes:png,jpg,webp', 
         ]);
 
-        $validated['image'] = $request->file('image')->store('category_images', 'public');
+        $category = [
+            'name' => $request->name,
+            'slug'=> Str::slug($validated['name']), // Auto-generate slug from name
+        ];
+        // Store image path to image property of categories table
+        $category['image'] =  $request->file('image')->store('category_images', 'public');
 
-        Category::create($validated);
-
+        // Store category to categories table
+        Category::create($category);
+    
+        // Redirect
         return redirect()->route('admin.category')->with('success', 'Category added successfully.');
     }
 
@@ -51,6 +62,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        // Return view for edit category form
         return view('dashboard.category.edit', compact('category'));
     }
 
@@ -59,7 +71,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $attributes = $request->validate([
+        // Validate all forms attributes
+        $request->validate([
             'name' => ['required'],
             'image' => ['nullable', 'mimes:png,jpg,webp'],
         ]);
@@ -69,12 +82,13 @@ class CategoryController extends Controller
 
         // If a new image is uploaded, store it and replace the old one
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('category_images', 'public');
-            $attributes['image'] = $imagePath;
+            $attributes['image'] = $request->file('image')->store('category_images', 'public');
         }
 
+        // Update the data of category
         $category->update($attributes);
 
+        // Redirect
         return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
     }
 
@@ -94,5 +108,4 @@ class CategoryController extends Controller
         // Redirect back with a success message
         return redirect()->route('admin.category')->with('success', 'Category deleted successfully!');
     }
-
 }

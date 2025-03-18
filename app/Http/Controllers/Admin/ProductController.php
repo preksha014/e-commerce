@@ -16,7 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
+        // Fetch all Products
         $products = Product::all();
+
+        // Return view with all Products
         return view('dashboard.product.index', [
             'products' => $products
         ]);
@@ -27,7 +30,10 @@ class ProductController extends Controller
      */
     public function create()
     {
+        // Fetch all categories
         $categories = Category::all();
+
+        // Return view with categories for add product form
         return view('dashboard.product.create', compact('categories'));
     }
 
@@ -36,32 +42,32 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Validate all forms input
+        $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'size' => 'required|string',
             'color' => 'required|string',
-            'category_id' => 'required|exists:categories,id', // Ensure category_id is required
+            'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
             'status' => 'required|in:active,inactive',
         ]);
 
-        // $validated['slug'] = Str::slug($validated['name']);
-        $validated['status'] = $validated['status'] === 'active' ? 1 : 0;
+        $product=[
+            'name' => $request->name,
+            'description' => $request->description,
+            'size' => $request->size,
+            'color' => $request->color,
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'slug' => Str::slug($request['name']),
+            'status' => $request['status'] === 'active' ? 1 : 0,
+        ];
 
-        // Create Product
-        $product = Product::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'size' => $validated['size'],
-            'color' => $validated['color'],
-            'category_id' => $validated['category_id'],
-            'price' => $validated['price'],
-            'quantity' => $validated['quantity'],
-            'status' => $validated['status'],
-            'slug' => Str::slug($validated['name']),
-        ]);
+        // Store Product to products table
+        $product = Product::create($product);
 
         // Store Images
         if ($request->hasFile('images')) {

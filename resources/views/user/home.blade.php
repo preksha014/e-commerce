@@ -3,4 +3,6 @@
     @include('partials.banner')
     @include('partials.category')
     @include('partials.products')
+
+    {{-- <x-product-list :product></x-product-list> --}}
 </x-layout>

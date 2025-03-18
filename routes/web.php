@@ -1,18 +1,35 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
+
 use App\Http\Controllers\User\SessionController as UserLogin;
 use App\Http\Controllers\User\RegisteredUserController as UserRegister;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\ProductController as UserProducts;
+use App\Http\Controllers\User\CategoryController as UserCategory;
 
-Route::view('/', 'user.home')->name('user.home');
-Route::view('/catalog', 'user.catalog');
-Route::view('/about', 'user.about');
-Route::view('/contact', 'user.contact');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', "index");
+    Route::get('/about', "about");
+    Route::get('/contact', "contact");
+});
+
+Route::controller(UserProducts::class)->group(function () {
+    Route::get('/catalog', "index");
+    Route::get('/product-overview/{slug}', "show")->name('product.show');
+});
+
+Route::get('/category/{slug}', [UserCategory::class, 'show'])->name('category.show');
+// Route::controller(Cate::class)->group(function () {
+//     Route::get('/catalog', "index");
+//     Route::get('/product-overview/{slug}', "show")->name('product.show');
+// });
+
 Route::view('/cart', 'user.cart');
-Route::view('/product-overview', 'user.product-overview');
 
 Route::view('/checkout-address', 'user.checkout-address');
 Route::view('/checkout-payment', 'user.checkout-payment');
@@ -25,19 +42,22 @@ Route::middleware('guest:customer')->group(function () {
 });
 
 Route::middleware('auth:customer')->group(function () {
+
     Route::get("logout", [UserLogin::class, "logout"]);
 });
 
 Route::get("signup", [UserRegister::class, "create"]);
 Route::post("signup", [UserRegister::class, "store"]);
 
+
+//Admin Routes
 Route::prefix("admin")->group(function () {
     Route::middleware('guest:admin')->group(function () {
         Route::get("login", [AdminLogin::class, "index"])->name("login");
         Route::post("login", [AdminLogin::class, "store"]);
     });
     Route::middleware('auth:admin')->group(function () {
-        Route::view('/dashboard', 'dashboard.index')->name("admin.dashboard");
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name("admin.dashboard");
 
         Route::prefix("product")->group(function () {
             Route::get('/', [ProductController::class, 'index'])->name("admin.product");
@@ -52,9 +72,9 @@ Route::prefix("admin")->group(function () {
             Route::get('/', [CategoryController::class, 'index'])->name("admin.category");
             Route::get('/create', [CategoryController::class, 'create'])->name("admin.category.create");
             Route::post('/create', [CategoryController::class, 'store'])->name("admin.category.store");
-            Route::get('/{slug}/edit', [CategoryController::class, 'edit'])->name("admin.category.edit");
-            Route::post('/{slug}/update', [CategoryController::class, 'update'])->name("admin.category.update");
-            Route::delete('/{slug}/delete', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name("admin.category.edit");
+            Route::post('/{category}/update', [CategoryController::class, 'update'])->name("admin.category.update");
+            Route::delete('/{category}/delete', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         });
 
         Route::view('/orders', 'dashboard.orders')->name("admin.orders");
