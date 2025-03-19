@@ -37,8 +37,8 @@ Route::middleware('guest:customer')->group(function () {
 Route::middleware('auth:customer')->group(function () {
     Route::get("logout", [UserLogin::class, "logout"]);
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
-    Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::post('/cart/add/{slug}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/cart/remove/{slug}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 });
 
 Route::get("signup", [UserRegister::class, "create"]);

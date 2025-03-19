@@ -228,7 +228,8 @@
                 <!-- /form  -->
 
                 <!-- Summary  -->
-                @include('partials.order-summary')
+                <x-order-summary :cart_total="session('cart_total', 0)" :cart_count="session('cart_count', 0)" />
+
             </section>
 
             @include('partials.footer')

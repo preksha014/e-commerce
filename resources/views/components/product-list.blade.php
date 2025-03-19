@@ -31,9 +31,9 @@
             <p class="font-medium text-violet-900">${{ $product->price }}</p>
 
             <div>
-                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                <form action="{{ route('cart.add', $product->slug) }}" method="POST" class="add-to-cart-form" data-product-id="{{ $product->id }}">
                     @csrf
-                    <input type="hidden" name="product_id" value="123">
+                    <input type="hidden" name="product_id" value="{{ $product->slug }}">
                     <button type="submit" class="my-5 h-10 w-full bg-violet-900 text-white">
                         Add to Cart
                     </button>

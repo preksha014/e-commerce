@@ -8,7 +8,7 @@ use App\Models\Product;
 class CartController extends Controller
 {
     // Calculate total price and count
-    private function calculateCartTotals($cart)
+    private function calculateCartTotals($cart): void
     {
         $cart_total = 0;
         $cart_count = 0;
@@ -35,35 +35,32 @@ class CartController extends Controller
     }
 
     // Add to Cart
-    public function addToCart(Request $request, $id)
+    public function addToCart(Request $request)
     {
-        $product = Product::findOrFail($id);
-        $cart = session('cart', []);
+        $product = Product::where('slug', $request->slug)->firstOrFail();
+        $cart = session()->get('cart', []);
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] += $request->input('quantity', 1);
-        } else {
-            $cart[$id] = [
-                "name" => $product->name,
-                "price" => $product->price,
-                "image" => $product->images->first()->image,
-                "quantity" => $request->input('quantity', 1)
-            ];
-        }
+        $cart[$product->slug] = [
+            'name' => $product->name,
+            'price' => $product->price,
+            "image" => $product->images->first()->image,
+            "quantity" => $request->input('quantity', 1),
+            'slug' => $product->slug,
+        ];
 
-        session(['cart' => $cart]);
+        session()->put('cart', $cart);
         $this->calculateCartTotals($cart);
-        
-        return response()->json(['message' => 'Item added to cart successfully', 'cart' => $cart, 'cart_total' => session('cart_total')]);
+
+        return response()->json(['message' => 'Item added to cart', 'cart' => $cart, 'cart_total' => session('cart_total')]);
     }
 
     // Remove Item from Cart
-    public function removeFromCart($id)
+    public function removeFromCart(string $slug)
     {
         $cart = session('cart', []);
 
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
+        if (isset($cart[$slug])) {
+            unset($cart[$slug]);
             session(['cart' => $cart]);
             $this->calculateCartTotals($cart);
         }

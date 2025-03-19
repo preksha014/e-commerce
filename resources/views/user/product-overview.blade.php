@@ -59,9 +59,9 @@
           <!-- Action Buttons -->
           <div class="flex gap-4 mt-6">
             <div class="flex-1">
-                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                <form action="{{ route('cart.add', $product->slug) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="product_id" value="{{ $product->slug }}">
                     <button 
                         type="submit" 
                         class="w-full h-12 bg-violet-800 text-white font-semibold rounded-lg hover:bg-violet-600 transition">
