@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
@@ -13,7 +13,8 @@ class Category extends Model
 
     protected $guarded=[];
 
-    public function products(){
-        return $this->hasMany(Product::class);
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_categories');
     }
 }

@@ -33,17 +33,24 @@
                     @foreach ($products as $product)
                         <tr class="even:bg-gray-100 text-gray-700">
                             <td class="py-3 px-4 border border-gray-300">{{ $product->name }}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->description }}</td>
+                            <td class="py-3 px-4 border border-gray-300 max-w-xs break-words">
+                                {{ $product->description }}
+                            </td>
+                            {{-- <td class="py-3 px-4 border border-gray-300">{{ $product->description }}</td> --}}
                             <td class="py-3 px-4 border border-gray-300">{{ $product->size}}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->color}}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->category->name }}</td>
+                            <td class="py-3 px-4 border border-gray-300">
+                                {{ $product->categories->pluck('name')->join(', ') }}
+                            </td>
+
+                            {{-- <td class="py-3 px-4 border border-gray-300">{{ $product->category->name }}</td> --}}
                             <td class="py-3 px-4 border border-gray-300">{{ $product->price }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->quantity }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->status }}</td>
                             <td class="py-3 px-4 border border-gray-300">
                                 @foreach ($product->images as $image)
-                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Product Image"
-                                        class="w-16 h-16 object-cover">
+                                    <img src="{{ asset('storage/' . $image->image) }}" class="w-20 h-20 object-cover"
+                                        alt="Product Image">
                                 @endforeach
 
                             </td>

@@ -32,43 +32,34 @@
                         <th class="py-3 px-4 border border-gray-300">Quantity</th>
                         <th class="py-3 px-4 border border-gray-300">Status</th>
                         <th class="py-3 px-4 border border-gray-300">Images</th>
-                        <th class="py-3 px-4 border border-gray-300">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($products as $product)
                         <tr class="even:bg-gray-100 text-gray-700">
                             <td class="py-3 px-4 border border-gray-300">{{ $product->name }}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->description }}</td>
+                            <td class="py-3 px-4 border border-gray-300 max-w-xs break-words">
+                                {{ $product->description }}
+                            </td>
+                            {{-- <td class="py-3 px-4 border border-gray-300">{{ $product->description }}</td> --}}
                             <td class="py-3 px-4 border border-gray-300">{{ $product->size}}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->color}}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->category->name }}</td>
+                            <td class="py-3 px-4 border border-gray-300">
+                                {{ $product->categories->pluck('name')->join(', ') }}
+                            </td>
+
+                            {{-- <td class="py-3 px-4 border border-gray-300">{{ $product->category->name }}</td> --}}
                             <td class="py-3 px-4 border border-gray-300">{{ $product->price }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->quantity }}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->status }}</td>
                             <td class="py-3 px-4 border border-gray-300">
                                 @foreach ($product->images as $image)
-                                    <img src="{{ asset('storage/' . $image->image) }}" alt="Product Image"
-                                        class="w-16 h-16 object-cover">
+                                    <img src="{{ asset('storage/' . $image->image) }}" class="w-20 h-20 object-cover"
+                                        alt="Product Image">
                                 @endforeach
 
                             </td>
-                            <td class="py-3 px-4 space-x-2 border border-gray-300">
-                                <a href="{{ route('admin.product.edit', $product->id) }}"
-                                    class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition">
-                                    Edit
-                                </a>
-                                <form action="{{ route('admin.product.destroy', $product->id) }}" method="POST"
-                                    class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
-                                        onclick="return confirm('Are you sure you want to delete this product?')">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
+
                         </tr>
                     @endforeach
                     <!-- More Products Here -->

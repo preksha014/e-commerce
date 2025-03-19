@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+
 class ProductController extends Controller
 {
     /**
@@ -16,13 +17,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // Fetch all Products
-        $products = Product::all();
+        $products = Product::with('categories')->get(); // Eager load categories
+        $categories = Category::all(); // Fetch all categories
 
-        // Return view with all Products
-        return view('dashboard.product.index', [
-            'products' => $products
-        ]);
+        return view('dashboard.product.index', compact('products', 'categories'));
     }
 
     /**
@@ -40,46 +38,53 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        // Validate all forms input
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'size' => 'required|string',
-            'color' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'status' => 'required|in:active,inactive',
+            'description' => 'nullable|string',
+            'size' => 'nullable|string',
+            'color' => 'nullable|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'status' => 'required|string|in:active,inactive', // Ensure status is either 'active' or 'inactive'
+            'category_ids' => 'required|array',
+            'category_ids.*' => 'exists:categories,id',
         ]);
 
-        $product=[
-            'name' => $request->name,
-            'description' => $request->description,
-            'size' => $request->size,
-            'color' => $request->color,
-            'category_id' => $request->category_id,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'slug' => Str::slug($request['name']),
-            'status' => $request['status'] === 'active' ? 1 : 0,
-        ];
+        // Convert status to integer (1 = active, 0 = inactive)
+        $status = $request->status === 'active' ? 1 : 0;
 
-        // Store Product to products table
-        $product = Product::create($product);
+        // Create product with slug and integer status
+        $product = Product::create(array_merge(
+            $request->except(['category_ids', 'status']),
+            [
+                'slug' => Str::slug($request->name),
+                'status' => $status,
+            ]
+        ));
 
-        // Store Images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
+                $path = $image->store('product_images', 'public');
+
+                // Debugging
+                if (!$path) {
+                    return back()->withErrors(['image_error' => 'Image upload failed!']);
+                }
+
                 ProductImages::create([
                     'product_id' => $product->id,
-                    'image' => $image->store('product_images', 'public'),
+                    'image' => $path,
                 ]);
             }
         }
 
-        return redirect()->route('admin.product')->with('success', 'Product added successfully.');
+        // Attach selected categories
+        $product->categories()->sync($request->category_ids);
+
+        return redirect()->route('admin.product')->with('success', 'Product added successfully!');
     }
 
     /**
@@ -94,66 +99,75 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
-    {
-        // Validate input
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'size' => 'nullable|string|max:50',
-            'color' => 'nullable|string|max:50',
-            'category' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'status' => 'required|in:active,inactive',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
 
-        // Convert 'status' to integer
-        $validated['status'] = $validated['status'] === 'active' ? 1 : 0;
-
-        // Update product details
-        $product->update($validated);
-
-        // Handle images
-        if ($request->hasFile('images')) {
-            // Get existing images and delete them
-            $existingImages = ProductImages::where('product_id', $product->id)->get();
-            foreach ($existingImages as $img) {
-                if ($img->image_path && Storage::disk('public')->exists($img->image_path)) {
-                    Storage::disk('public')->delete($img->image_path);
-                }
-                $img->delete(); // Remove old database records
-            }
-
-            // Upload and store new images
-            foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('product_images', 'public');
-
-                ProductImages::create([
-                    'product_id' => $product->id,
-                    'image' => $imagePath,
-                ]);
-            }
-        }
-        return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
-    }
-
+     public function update(Request $request, Product $product)
+     {
+         // Validate input
+         $validated = $request->validate([
+             'name' => 'required|string|max:255',
+             'description' => 'required|string',
+             'size' => 'nullable|string|max:50',
+             'color' => 'nullable|string|max:50',
+             'categories' => 'required|array',
+             'categories.*' => 'exists:categories,id',
+             'price' => 'required|numeric|min:0',
+             'quantity' => 'required|integer|min:1',
+             'status' => 'required|in:active,inactive',
+             'images' => 'nullable|array',
+             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+         ]);
+     
+         // Update product details
+         $product->update([
+             'name' => $validated['name'],
+             'description' => $validated['description'],
+             'size' => $validated['size'],
+             'color' => $validated['color'],
+             'price' => $validated['price'],
+             'quantity' => $validated['quantity'],
+             'status' => $validated['status'] === 'active' ? 1 : 0, // Fix: Store 'active' or 'inactive' as string
+         ]);
+     
+         // Sync categories
+         $product->categories()->sync($validated['categories']);
+     
+         // Handle images only if new images are uploaded
+         if ($request->hasFile('images')) {
+             // Delete old images from storage and database
+             foreach ($product->images as $image) {
+                 if (Storage::disk('public')->exists($image->image)) {
+                     Storage::disk('public')->delete($image->image);
+                 }
+                 $image->delete();
+             }
+     
+             // Upload and store new images
+             foreach ($request->file('images') as $image) {
+                 ProductImages::create([
+                     'product_id' => $product->id,
+                     'image' => $image->store('product_images', 'public'),
+                 ]);
+             }
+         }
+     
+         return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
+     }
+     
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
     {
+        // Detach categories
+        $product->categories()->detach();
 
         // Delete the category image from storage
-        if ($product->images) {
-            foreach ($product->images as $image):
-                \Storage::delete('public/' . $image->image);
-            endforeach;
+        foreach ($product->images as $image) {
+            Storage::disk('public')->delete($image->image);
+            $image->delete();
         }
 
-        // Delete the category
+        // Delete the product
         $product->delete();
 
         // Redirect back with a success message

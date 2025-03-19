@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -43,15 +44,16 @@ class CategoryController extends Controller
             'image' => 'required|mimes:png,jpg,webp', 
         ]);
 
-        $category = [
+        $category = Category::create([
             'name' => $request->name,
             'slug'=> Str::slug($validated['name']), // Auto-generate slug from name
-        ];
-        // Store image path to image property of categories table
-        $category['image'] =  $request->file('image')->store('category_images', 'public');
+            'image' => $request->file('image')->store('category_images', 'public'),
+        ]);
 
-        // Store category to categories table
-        Category::create($category);
+        // Attach products if provided
+        if ($request->has('products')) {
+            $category->products()->attach($request->products);
+        }
     
         // Redirect
         return redirect()->route('admin.category')->with('success', 'Category added successfully.');
@@ -62,8 +64,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // Return view for edit category form
-        return view('dashboard.category.edit', compact('category'));
+        $products = Product::all();
+        return view('dashboard.category.edit', compact('category', 'products'));
     }
 
     /**
@@ -77,8 +79,9 @@ class CategoryController extends Controller
             'image' => ['nullable', 'mimes:png,jpg,webp'],
         ]);
 
-        // Auto-generate slug from name
-        $attributes['slug'] = Str::slug($request->name);
+        $attributes = [
+            'slug' => Str::slug($request->name),
+        ];
 
         // If a new image is uploaded, store it and replace the old one
         if ($request->hasFile('image')) {
@@ -87,6 +90,11 @@ class CategoryController extends Controller
 
         // Update the data of category
         $category->update($attributes);
+
+        // Sync products if provided
+        if ($request->has('products')) {
+            $category->products()->sync($request->products);
+        }
 
         // Redirect
         return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
@@ -97,6 +105,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        // Detach all related products
+        $category->products()->detach();
+
         // Delete the category image from storage
         if ($category->image) {
             \Storage::delete('public/' . $category->image);

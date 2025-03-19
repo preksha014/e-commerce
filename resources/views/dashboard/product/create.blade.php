@@ -39,6 +39,21 @@
 
                 </div>
                 <div class="mt-3">
+                    <label class="block text-sm font-medium text-gray-700">Categories</label>
+                    <div class="grid grid-cols-2 gap-2 mt-1">
+                        @foreach($categories as $category)
+                            <div class="flex items-center">
+                                <input type="checkbox" id="category_{{ $category->id }}" name="category_ids[]" value="{{ $category->id }}" 
+                                    class="mr-2 border-gray-300 rounded text-blue-600">
+                                <label for="category_{{ $category->id }}" class="text-sm text-gray-700">{{ $category->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('category_ids')
+                        <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
+                    @enderror
+                </div>                
+                {{-- <div class="mt-3">
                     <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                     <select id="category_id" name="category_id" class="w-full mt-1 p-2 border rounded-md bg-white">
                         <option value="">Select Category</option>i
@@ -49,7 +64,7 @@
                     @error('category_id')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
-                </div>
+                </div> --}}
                 <div class="grid grid-cols-2 gap-3 mt-3">
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-700">Price ($)</label>

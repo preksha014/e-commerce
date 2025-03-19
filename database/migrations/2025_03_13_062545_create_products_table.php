@@ -24,6 +24,8 @@ return new class extends Migration
             $table->boolean('status')->default(1); // 1 = Active, 0 = Inactive
             $table->string('slug'); // URL-friendly slug
             $table->timestamps();
+            $table->dropForeign(['category_id']); // Remove foreign key constraint
+            $table->dropColumn('category_id'); // Remove the column
         });
     }
 
@@ -33,5 +35,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('products');
+        Schema::table('products', function (Blueprint $table) {
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
+        });
     }
 };
