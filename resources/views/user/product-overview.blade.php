@@ -28,7 +28,7 @@
           <h2 class="text-3xl font-bold">{{ $product->name }}</h2>
 
           <!-- Product Info -->
-          <p><span class="font-semibold">Category:</span> {{ $product->category->name }}</p>
+          <p><span class="font-semibold">Category:</span> {{ $product->categories->pluck('name')->join(', ') }}</p>
 
           <!-- Price -->
           <p class="text-3xl font-bold text-violet-900">

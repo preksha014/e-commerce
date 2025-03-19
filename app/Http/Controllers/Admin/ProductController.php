@@ -20,6 +20,7 @@ class ProductController extends Controller
         $products = Product::with('categories')->get(); // Eager load categories
         $categories = Category::all(); // Fetch all categories
 
+        // Return view with products and categories
         return view('dashboard.product.index', compact('products', 'categories'));
     }
 
@@ -41,6 +42,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // Validate all form input data
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -52,19 +54,17 @@ class ProductController extends Controller
             'category_ids' => 'required|array',
             'category_ids.*' => 'exists:categories,id',
         ]);
-
-        // Convert status to integer (1 = active, 0 = inactive)
-        $status = $request->status === 'active' ? 1 : 0;
-
+        
         // Create product with slug and integer status
         $product = Product::create(array_merge(
             $request->except(['category_ids', 'status']),
             [
                 'slug' => Str::slug($request->name),
-                'status' => $status,
+                'status' => $request->status === 'active' ? 1 : 0, // Convert status to integer (1 = active, 0 = inactive)
             ]
         ));
 
+        // Storing images into product_images table
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('product_images', 'public');
@@ -81,9 +81,10 @@ class ProductController extends Controller
             }
         }
 
-        // Attach selected categories
+        // Attach selected categories-->arrange categories ids
         $product->categories()->sync($request->category_ids);
 
+        // Redirect
         return redirect()->route('admin.product')->with('success', 'Product added successfully!');
     }
 
@@ -92,7 +93,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        // Fetch all categories
         $categories = Category::all();
+
+        // Return view with products and categories
         return view('dashboard.product.edit', compact('product', 'categories'));
     }
 
@@ -125,7 +129,7 @@ class ProductController extends Controller
              'color' => $validated['color'],
              'price' => $validated['price'],
              'quantity' => $validated['quantity'],
-             'status' => $validated['status'] === 'active' ? 1 : 0, // Fix: Store 'active' or 'inactive' as string
+             'status' => $validated['status'] === 'active' ? 1 : 0,
          ]);
      
          // Sync categories
@@ -150,6 +154,7 @@ class ProductController extends Controller
              }
          }
      
+         // Redirect
          return redirect()->route('admin.product')->with('success', 'Product updated successfully!');
      }
      

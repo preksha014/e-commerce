@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -64,8 +63,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $products = Product::all();
-        return view('dashboard.category.edit', compact('category', 'products'));
+        // Return view for edit category with category value
+        return view('dashboard.category.edit', compact('category'));
     }
 
     /**
@@ -80,6 +79,7 @@ class CategoryController extends Controller
         ]);
 
         $attributes = [
+            'name'=>$request->name,
             'slug' => Str::slug($request->name),
         ];
 
@@ -91,7 +91,7 @@ class CategoryController extends Controller
         // Update the data of category
         $category->update($attributes);
 
-        // Sync products if provided
+        // Sync products if provided-->arrange ids of products
         if ($request->has('products')) {
             $category->products()->sync($request->products);
         }
