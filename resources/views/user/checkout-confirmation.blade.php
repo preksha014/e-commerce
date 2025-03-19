@@ -1,15 +1,5 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    @include('partials.meta')
-    <title>Checkout</title>
-</head>
-
-<body x-data="{ desktopMenuOpen: false, mobileMenuOpen: false}">
-    @include('partials.head')
-    <main class="h-screen flex flex-col justify-between">
-        @include('partials.nav')
+<x-layout>
+    <x-slot:heading>Checkout</x-slot:heading>
         <div class="flex-grow">
             <section class="mt-20 px-4">
                 <div class="flex flex-col">
@@ -27,8 +17,5 @@
                     </div>
                 </div>
             </section>
-    </main>
-    @include('partials.footer')
-</body>
-
-</html>
+        </div>
+</x-layout>

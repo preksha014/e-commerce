@@ -22,8 +22,6 @@ Route::controller(UserProducts::class)->group(function () {
 
 Route::get('/category/{slug}', [UserCategory::class, 'show'])->name('category.show');
 
-Route::view('/cart', 'user.cart');
-
 Route::view('/checkout-address', 'user.checkout-address');
 Route::view('/checkout-payment', 'user.checkout-payment');
 Route::view('/checkout-review', 'user.checkout-review');
