@@ -7,6 +7,7 @@ use App\Http\Controllers\User\RegisteredUserController as UserRegister;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\ProductController as UserProducts;
 use App\Http\Controllers\User\CategoryController as UserCategory;
+use App\Http\Controllers\CartController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', "index");
@@ -34,8 +35,10 @@ Route::middleware('guest:customer')->group(function () {
 });
 
 Route::middleware('auth:customer')->group(function () {
-
     Route::get("logout", [UserLogin::class, "logout"]);
+    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+    Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 });
 
 Route::get("signup", [UserRegister::class, "create"]);

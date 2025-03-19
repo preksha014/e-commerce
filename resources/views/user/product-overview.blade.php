@@ -58,13 +58,25 @@
           </div>
           <!-- Action Buttons -->
           <div class="flex gap-4 mt-6">
-            <button class="flex-1 h-12 bg-violet-900 text-white font-semibold rounded-lg hover:bg-violet-700">Add to
-              Cart</button>
-            <button
-              class="flex-1 h-12 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500">Wishlist</button>
-          </div>
-        </div>
-
+            <div class="flex-1">
+                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <button 
+                        type="submit" 
+                        class="w-full h-12 bg-violet-800 text-white font-semibold rounded-lg hover:bg-violet-600 transition">
+                        Add to Cart
+                    </button>
+                </form>
+            </div>
+        
+            <div class="flex-1">
+                <button 
+                    class="w-full h-12 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition">
+                    Wishlist
+                </button>
+            </div>
+        </div>        
       </section>
     </main>
 
