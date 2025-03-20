@@ -5,7 +5,7 @@
         <p class="font-bold">ORDER SUMMARY</p>
         <div class="flex justify-between border-b py-5">
             <p>Subtotal</p>
-            <p>&#36;{{ number_format($cart_total, 2) }}</p>
+            <p>{{ number_format($cart_total) }} ₹</p>
         </div>
         <div class="flex justify-between border-b py-5">
             <p>Shipping</p>
@@ -13,11 +13,8 @@
         </div>
         <div class="flex justify-between py-5">
             <p>Total</p>
-            <p>&#36;{{ number_format($cart_total, 2) }}</p>
+            <p>{{ number_format($cart_total) }} ₹</p>
         </div>
         {{ $slot }}
-        {{-- <a href="/checkout-address">
-            <button class="w-full bg-violet-900 px-5 py-2 text-white">Proceed to checkout</button>
-        </a> --}}
     </div>
 </section>
