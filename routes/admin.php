@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -35,7 +36,7 @@ Route::prefix("admin")->group(function () {
 
         Route::view('/orders', 'dashboard.orders')->name("admin.orders");
 
-        Route::view('/customers', 'dashboard.customers')->name("admin.customers");
+        Route::get('/customers', [CustomerController::class,'index'])->name("admin.customers");
 
         Route::view('/reports', 'dashboard.reports')->name("admin.reports");
 

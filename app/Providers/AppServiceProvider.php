@@ -23,7 +23,12 @@ class AppServiceProvider extends ServiceProvider
         //
         View::composer('*', function ($view) {
             $cart = session('cart', []);
-            $cart_count = array_sum(array_column($cart, 'quantity'));
+            $cart_count = 0;
+            
+            if (!empty($cart)) {
+                $cart_count = array_sum(array_column($cart, 'quantity'));
+            }
+            
             $view->with('cart_count', $cart_count);
         });
     }

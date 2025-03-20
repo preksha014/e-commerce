@@ -36,6 +36,7 @@ Route::middleware('auth:customer')->group(function () {
     Route::get("logout", [UserLogin::class, "logout"]);
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
     Route::post('/cart/add/{slug}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::patch('/cart/update/{slug}', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/remove/{slug}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 });
 
