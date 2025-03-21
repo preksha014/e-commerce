@@ -24,6 +24,11 @@ class CartService
         return session('cart', []);
     }
 
+    public function getTotal(): float
+    {
+        return session('cart_total', 0);
+    }
+
     public function addToCart(string $slug, int $quantity = 1): array
     {
         $product = Product::where('slug', $slug)->firstOrFail();
@@ -41,7 +46,6 @@ class CartService
                 'slug' => $product->slug,
             ];
         }
-        // dd($cart);
 
         session(['cart' => $cart]);
         $this->calculateCartTotals($cart);

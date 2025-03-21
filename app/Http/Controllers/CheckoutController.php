@@ -64,9 +64,12 @@ class CheckoutController extends Controller
     public function placeOrder()
     {
         $customer = $this->checkoutService->getCustomer(auth()->user()->id);
-        // dd($customer);
+        
         $order = $this->cartService->getCart();
-        return view('user.checkout-confirmation', compact('customer', 'order'));
+        
+        $total = $this->cartService->getTotal();
+
+        return view('user.checkout-confirmation', compact('customer', 'order','total'));
     }
 
 }

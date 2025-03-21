@@ -11,7 +11,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/', "index");
+    Route::get('/', "index")->name('home');
     Route::get('/about', "about");
     Route::get('/contact', "contact");
 });
@@ -43,7 +43,6 @@ Route::middleware('auth:customer')->group(function () {
     
     Route::get('/checkout-review', [CheckoutController::class, 'showReviewPage'])->name('checkout.review');
     Route::post('/checkout-review', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
-    // Route::get('/checkout/confirmation/{customerId}/{orderId}', [CheckoutController::class, 'showConfirmationPage'])->name('checkout.confirmation');
     Route::view('/checkout-confimation', 'user.checkout-confirmation')->name('checkout.confirmation');
 });
 

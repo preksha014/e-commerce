@@ -1,52 +1,56 @@
 <x-dashboard-layout>
     <x-slot:heading>Reports</x-slot:heading>
 
-    <!-- Main Content -->
     <div class="flex-grow p-8 space-y-6">
-        <!-- Page Header -->
         <h2 class="text-2xl font-bold text-gray-700">Reports Overview</h2>
 
-        <!-- Report Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
                 <h3 class="text-xl font-bold text-gray-700">Total Products</h3>
-                <p class="text-3xl font-semibold text-blue-600 mt-2">150</p>
+                <p class="text-3xl font-semibold text-blue-600 mt-2">{{ $totalProducts }}</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
                 <h3 class="text-xl font-bold text-gray-700">Total Orders</h3>
-                <p class="text-3xl font-semibold text-green-600 mt-2">450</p>
+                <p class="text-3xl font-semibold text-green-600 mt-2">{{ $totalOrders }}</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition">
-                <h3 class="text-xl font-bold text-gray-700">Total Sales</h3>
-                <p class="text-3xl font-semibold text-red-600 mt-2">$50,000</p>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-bold text-gray-700">Total Customers</h3>
+                <p class="text-3xl font-semibold text-red-600 mt-2">{{ $totalCustomers }}</p>
             </div>
         </div>
 
-        <!-- Sales Report Table -->
         <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-bold text-gray-700 mb-4">Sales Report</h3>
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-violet-200 text-gray-700 uppercase text-sm tracking-wide">
-                        <th class="py-3 px-4 border border-gray-300 text-left">Product Name</th>
-                        <th class="py-3 px-4 border border-gray-300 text-center">Orders</th>
-                        <th class="py-3 px-4 border border-gray-300 text-center">Total Sales</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="even:bg-gray-100 hover:bg-gray-200 transition text-gray-700">
-                        <td class="py-3 px-4 border border-gray-300">Smartphone</td>
-                        <td class="py-3 px-4 border border-gray-300 text-center">120</td>
-                        <td class="py-3 px-4 border border-gray-300 text-center">$35,000</td>
-                    </tr>
-                    <tr class="even:bg-gray-100 hover:bg-gray-200 transition text-gray-700">
-                        <td class="py-3 px-4 border border-gray-300">Laptop</td>
-                        <td class="py-3 px-4 border border-gray-300 text-center">80</td>
-                        <td class="py-3 px-4 border border-gray-300 text-center">$40,000</td>
-                    </tr>
-                    <!-- More Sales Data Here -->
-                </tbody>
-            </table>
+            <h3 class="text-xl font-bold text-gray-700 mb-4">Sales Chart</h3>
+            <div style="height: 470px;">
+                <canvas id="salesChart"></canvas>
+            </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById("salesChart").getContext("2d");
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Total Products", "Total Orders", "Total Customers"],
+                    datasets: [{
+                        label: "Statistics",
+                        data: [{{ $totalProducts }}, {{ $totalOrders }}, {{ $totalCustomers }}],
+                        backgroundColor: ["#3B82F6", "#10B981", "#EF4444"],
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-dashboard-layout>

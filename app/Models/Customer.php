@@ -13,7 +13,7 @@ class Customer extends Authenticatable
     protected $table = "customers";
     protected $guarded=[];
 
-    public function addresses(){
+    public function address(){
         return $this->hasMany(Address::class);
     }
 

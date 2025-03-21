@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('categories')->get(); // Eager load categories
+        $products = Product::with('categories')->paginate(5); // Eager load categories
         $categories = Category::all(); // Fetch all categories
 
         // Return view with products and categories

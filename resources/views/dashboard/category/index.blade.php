@@ -55,5 +55,9 @@
                 </tbody>
             </table>
         </div>
+        <!-- Pagination Links -->
+        <div class="mt-4">
+            {{ $categories->links() }}
+        </div>
     </div>
 </x-dashboard-layout>

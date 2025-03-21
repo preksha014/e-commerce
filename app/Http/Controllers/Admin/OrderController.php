@@ -14,32 +14,13 @@ class OrderController extends Controller
     public function index()
     {
         //
-        $orders = Order::all();
+        $orders = Order::with('customer')->paginate(10);
 
         $customer = $orders->map(function ($order) {
             return $order->customer;
         });
 
-
-        // dd($orders);
-        // dd($customer);
         return view('dashboard.order.index', compact('orders', 'customer'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -61,26 +42,16 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Order $order)
     {
-        //
-    }
+        $request->validate([
+            'status' => 'required|in:pending,delivered,cancelled',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $order->update(['status' => $request->status]);
+
+        return redirect()->route('admin.orders')->with('success', 'Order status updated successfully');
     }
 }

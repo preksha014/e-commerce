@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         // Fetch all categories
-        $categories = Category::all();
+        $categories = Category::paginate(10);
 
         // Return view with all categories
         return view('dashboard.category.index', [

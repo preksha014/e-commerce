@@ -16,7 +16,7 @@
         <div class="bg-white p-6 rounded-lg shadow-md">
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
-                    <tr class="bg-violet-200 text-left text-gray-700">
+                    <tr class="bg-violet-300 text-left text-gray-700">
                         <th class="py-3 px-4 border border-gray-300">Product Name</th>
                         <th class="py-3 px-4 border border-gray-300">Description</th>
                         <th class="py-3 px-4 border border-gray-300">Size</th>
@@ -75,6 +75,10 @@
                     <!-- More Products Here -->
                 </tbody>
             </table>
+        </div>
+        <!-- Pagination Links -->
+        <div class="mt-4">
+            {{ $products->links() }}
         </div>
     </div>
 </x-dashboard-layout>

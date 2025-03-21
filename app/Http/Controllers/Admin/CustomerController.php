@@ -13,10 +13,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
-        $customers=Customer::all();
-        return view('dashboard.customers',compact('customers'));
+        $customers = Customer::with('address')->paginate(3); // Ensuring pagination includes addresses
+
+        return view('dashboard.customers', [
+            'customers' => $customers
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.

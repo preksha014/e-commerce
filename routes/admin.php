@@ -38,13 +38,12 @@ Route::prefix("admin")->group(function () {
         Route::prefix("order")->group(function () {
             Route::get('/', [OrderController::class, 'index'])->name("admin.orders");
             Route::get('/{order}', [OrderController::class, 'show'])->name("admin.order.show");
+            Route::patch('/{order}/update', [OrderController::class, 'update'])->name("admin.order.update");
         });
-
-        // Route::get('/orders', [OrderController::class,'index'])->name("admin.orders");
 
         Route::get('/customers', [CustomerController::class,'index'])->name("admin.customers");
 
-        Route::view('/reports', 'dashboard.reports')->name("admin.reports");
+        Route::get('/reports', [DashboardController::class,'report'])->name("admin.reports");
 
         Route::get('/logout', [AdminLogin::class, "logout"])->name("admin.logout");
     });
