@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -13,6 +14,16 @@ class OrderController extends Controller
     public function index()
     {
         //
+        $orders = Order::all();
+
+        $customer = $orders->map(function ($order) {
+            return $order->customer;
+        });
+
+
+        // dd($orders);
+        // dd($customer);
+        return view('dashboard.order.index', compact('orders', 'customer'));
     }
 
     /**
@@ -34,9 +45,19 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Order $order)
     {
-        //
+        $order->load('customer', 'order_items');
+
+        $products = $order->order_items->map(function ($item) {
+            return $item->product;
+        });
+        return view('dashboard.order.show', [
+            'order' => $order,
+            'customer' => $order->customer,
+            'orderItems' => $order->order_items,
+            'products' => $products
+        ]);
     }
 
     /**

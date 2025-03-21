@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -34,7 +35,12 @@ Route::prefix("admin")->group(function () {
             Route::delete('/{category}/delete', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         });
 
-        Route::view('/orders', 'dashboard.orders')->name("admin.orders");
+        Route::prefix("order")->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name("admin.orders");
+            Route::get('/{order}', [OrderController::class, 'show'])->name("admin.order.show");
+        });
+
+        // Route::get('/orders', [OrderController::class,'index'])->name("admin.orders");
 
         Route::get('/customers', [CustomerController::class,'index'])->name("admin.customers");
 

@@ -1,4 +1,4 @@
-{{-- {{ dd($cart) }} --}}
+{{-- {{ dd($cartItems) }} --}}
 <x-layout>
     <x-slot:heading>Checkout</x-slot:heading>
     <div class="flex-grow">
@@ -23,7 +23,8 @@
                     </thead>
                     <tbody>
                         <!-- 1 -->
-                        @foreach($cart as $id => $item)
+                        {{-- {{ dd($cartItems) }} --}}
+                        @foreach($cartItems as $id => $item)
                         {{-- {{ dd($item) }} --}}
                         <tr class="h-[100px] border-b">
                             <td class="align-middle">
@@ -57,8 +58,11 @@
 
                     <div class="mx-auto flex justify-center gap-2 lg:mx-0">
                         <a href="/checkout-payment" class="bg-purple-900 px-4 py-2 text-white">Previous step</a>
-
-                        <a href="/checkout-confirmation" class="bg-amber-400 px-4 py-2">Place Order</a>
+                        <form action="{{ route('checkout.place.order') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-amber-400 px-4 py-2">Place Order</button>
+                        </form>
+                        {{-- <a href="{{ route('checkout.place.order') }}" class="bg-amber-400 px-4 py-2">Place Order</a> --}}
                     </div>
                 </div>
             </section>

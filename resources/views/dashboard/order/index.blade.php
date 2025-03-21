@@ -1,3 +1,4 @@
+{{-- {{ dd($orders) }} --}}
 <x-dashboard-layout>
     <x-slot:heading>Orders</x-slot:heading>
 
@@ -11,7 +12,7 @@
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
                     <tr class="bg-violet-200 text-left text-gray-700">
-                        <th class="py-3 px-4 border border-gray-300">Order ID</th>
+                        {{-- <th class="py-3 px-4 border border-gray-300">Order ID</th> --}}
                         <th class="py-3 px-4 border border-gray-300">Customer Name</th>
                         <th class="py-3 px-4 border border-gray-300">Total Amount</th>
                         <th class="py-3 px-4 border border-gray-300">Status</th>
@@ -19,25 +20,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($orders as $order)
+                    {{-- {{ dd($order) }} --}}
                     <tr class="even:bg-gray-100 text-gray-700">
-                        <td class="py-3 px-4 border border-gray-300">#1001</td>
-                        <td class="py-3 px-4 border border-gray-300">John Doe</td>
-                        <td class="py-3 px-4 border border-gray-300">$299</td>
+                        {{-- <td class="py-3 px-4 border border-gray-300">#1001</td> --}}
+                        <td class="py-3 px-4 border border-gray-300">{{$order->customer->name}}</td>
+                        <td class="py-3 px-4 border border-gray-300">{{$order->total_amount}}</td>
                         <td class="py-3 px-4 border border-gray-300">
                             <span class="bg-yellow-500 text-white px-3 py-1 rounded-md shadow-md">
-                                Pending
+                                {{ $order->status }}
                             </span>
                         </td>
                         <td class="py-3 px-4 border border-gray-300">
-                            <button class="bg-green-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-green-600 transition">
+                            <a  href="{{ route('admin.order.show',$order->id) }}"class="bg-green-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-green-600 transition">
                                 View
-                            </button>
+                            </a>
                             <button class="bg-red-500 text-white px-3 py-1 rounded-md ml-2 shadow-md hover:bg-red-600 transition">
                                 Cancel
                             </button>
                         </td>
                     </tr>
                     <!-- More Orders Here -->
+                    @endforeach
                 </tbody>
             </table>
         </div>

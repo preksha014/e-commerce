@@ -33,6 +33,7 @@ class CartService
             $cart[$product->slug]['quantity'] += $quantity;
         } else {
             $cart[$product->slug] = [
+                'id' => $product->id,
                 'name' => $product->name,
                 'price' => $product->price,
                 'image' => $product->images->first()->image ?? null,
@@ -40,6 +41,7 @@ class CartService
                 'slug' => $product->slug,
             ];
         }
+        // dd($cart);
 
         session(['cart' => $cart]);
         $this->calculateCartTotals($cart);
