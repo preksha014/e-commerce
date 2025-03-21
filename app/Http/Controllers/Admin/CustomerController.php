@@ -13,7 +13,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('address')->paginate(3); // Ensuring pagination includes addresses
+        $customers = Customer::paginate(5);
 
         return view('dashboard.customers', [
             'customers' => $customers

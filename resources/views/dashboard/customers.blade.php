@@ -15,13 +15,10 @@
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
-                        @foreach ($customer->address as $address)
-                            <tr class="even:bg-gray-100 hover:bg-gray-200 transition text-gray-700">
-                                <td class="py-3 px-4 border border-gray-300">{{ $customer->name }}</td>
-                                <td class="py-3 px-4 border border-gray-300">{{ $customer->email }}</td>
-                                <td class="py-3 px-4 border border-gray-300">{{ $address->city }}</td>
-                            </tr>
-                        @endforeach
+                        <tr class="even:bg-gray-100 hover:bg-gray-200 transition text-gray-700">
+                            <td class="py-3 px-4 border border-gray-300">{{ $customer->name }}</td>
+                            <td class="py-3 px-4 border border-gray-300">{{ $customer->email }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -31,6 +28,6 @@
         <div class="mt-4">
             {{ $customers->links() }}
         </div>
-        
+
     </div>
 </x-dashboard-layout>

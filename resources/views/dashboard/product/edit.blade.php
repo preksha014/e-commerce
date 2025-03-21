@@ -12,7 +12,7 @@
                 @method('PATCH')
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
-                    <input type="text" id="name" name="name" value="{{ old('name', $product->name) }}" required
+                    <input type="text" id="name" name="name" value="{{ old('name', $product->name) }}" 
                         class="w-full mt-1 p-2 border rounded-md">
                     @error('name')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="mt-2">
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea id="description" name="description" required
+                    <textarea id="description" name="description" 
                         class="w-full mt-1 p-2 border rounded-md">{{ old('description', $product->description) }}</textarea>
                     @error('description')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -30,7 +30,7 @@
                     <div>
                         <label for="size" class="block text-sm font-medium text-gray-700">Size</label>
 
-                        <input type="text" id="size" name="size" value="{{ old('size', $product->size) }}" required
+                        <input type="text" id="size" name="size" value="{{ old('size', $product->size) }}" 
                             class="w-full mt-1 p-2 border rounded-md">
                         @error('size')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -38,7 +38,7 @@
                     </div>
                     <div>
                         <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
-                        <input type="text" id="color" name="color" value="{{ old('color', $product->color) }}" required
+                        <input type="text" id="color" name="color" value="{{ old('color', $product->color) }}" 
                             class="w-full mt-1 p-2 border rounded-md">
                         @error('color')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -66,7 +66,7 @@
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-700">Price ($)</label>
                         <input type="number" id="price" name="price" value="{{ old('price', $product->price) }}"
-                            step="0.01" required class="w-full mt-1 p-2 border rounded-md">
+                            step="0.01"  class="w-full mt-1 p-2 border rounded-md">
                         @error('price')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                         @enderror
@@ -74,7 +74,7 @@
                     <div>
                         <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
                         <input type="number" id="quantity" name="quantity"
-                            value="{{ old('quantity', $product->quantity) }}" required
+                            value="{{ old('quantity', $product->quantity) }}" 
                             class="w-full mt-1 p-2 border rounded-md">
                         @error('quantity')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="mt-2">
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                    <select id="status" name="status" required class="w-full mt-1 p-2 border rounded-md bg-white">
+                    <select id="status" name="status" class="w-full mt-1 p-2 border rounded-md bg-white">
                         <option value="active" {{ old('status', $product->status) == 'active' ? 'selected' : '' }}>Active
                         </option>
                         <option value="inactive" {{ old('status', $product->status) == 'inactive' ? 'selected' : '' }}>

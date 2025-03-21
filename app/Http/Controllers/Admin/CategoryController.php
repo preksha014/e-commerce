@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -35,13 +36,10 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
         // Validate all form inputs
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'required|mimes:png,jpg,webp', 
-        ]);
+        $validated = $request->validated();
 
         $category = Category::create([
             'name' => $request->name,

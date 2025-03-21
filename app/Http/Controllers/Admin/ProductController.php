@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,20 +41,10 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         // Validate all form input data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'size' => 'nullable|string',
-            'color' => 'nullable|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'status' => 'required|string|in:active,inactive', // Ensure status is either 'active' or 'inactive'
-            'category_ids' => 'required|array',
-            'category_ids.*' => 'exists:categories,id',
-        ]);
+        $request->validated();
         
         // Create product with slug and integer status
         $product = Product::create(array_merge(
@@ -104,22 +95,10 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
 
-     public function update(Request $request, Product $product)
+     public function update(StoreProductRequest $request, Product $product)
      {
          // Validate input
-         $validated = $request->validate([
-             'name' => 'required|string|max:255',
-             'description' => 'required|string',
-             'size' => 'nullable|string|max:50',
-             'color' => 'nullable|string|max:50',
-             'categories' => 'required|array',
-             'categories.*' => 'exists:categories,id',
-             'price' => 'required|numeric|min:0',
-             'quantity' => 'required|integer|min:1',
-             'status' => 'required|in:active,inactive',
-             'images' => 'nullable|array',
-             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
-         ]);
+         $validated = $request->validated();
      
          // Update product details
          $product->update([
