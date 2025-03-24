@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\StaticBlock;
 
 class HomeController extends Controller
 {
@@ -17,8 +18,9 @@ class HomeController extends Controller
         //
         $categories = Category::all();
         $products = Product::all(); // Ensure Product is imported
-    
-        return view('user.home', compact('categories', 'products'));
+        $block=StaticBlock::where('slug','bn1')->first();
+    // dd($block);
+        return view('user.home', compact('categories', 'products','block'));
     }
 
     public function about()

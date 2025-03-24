@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
+use App\Http\Controllers\Admin\StaticBlockController;
 
 //Admin Routes
 Route::prefix("admin")->group(function () {
@@ -45,6 +46,18 @@ Route::prefix("admin")->group(function () {
 
         Route::get('/reports', [DashboardController::class,'report'])->name("admin.reports");
 
+        Route::prefix('block')->group(function(){
+            Route::get('/',[StaticBlockController::class,'index'])->name('admin.block');
+
+            Route::get('/create',[StaticBlockController::class,'create'])->name('admin.block.create');
+            Route::post('/create',[StaticBlockController::class,'store'])->name('admin.block.store');
+
+            Route::get('/{slug}/edit',[StaticBlockController::class,'edit'])->name('admin.block.edit');
+            Route::post('/{slug}/update',[StaticBlockController::class,'update'])->name('admin.block.update');
+
+            Route::delete('/{slug}/delete',[StaticBlockController::class,'destroy'])->name('admin.block.destroy');
+        });
+        
         Route::get('/logout', [AdminLogin::class, "logout"])->name("admin.logout");
     });
 });
