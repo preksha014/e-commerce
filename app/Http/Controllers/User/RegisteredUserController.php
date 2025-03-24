@@ -4,85 +4,40 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RegisterRequest;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-        
-    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
         return view('user.signup');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        $attributes = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:customers,email'],
-            'password' => ['required', 'confirmed', Password::min(6)], 
-        ]);
-    
-        // Hash the password before saving
-        $attributes['password'] = bcrypt($attributes['password']);
-    
-        // Create the customer
-        $customer = Customer::create($attributes);
-    
-        // Log in the customer
-        Auth::login($customer);
-    
-        return redirect('/');
+        try {
+            $attributes = $request->validated();
 
-    }
+            // Hash the password before saving
+            $attributes['password'] = bcrypt($attributes['password']);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-        
-    }
+            // Create the customer
+            $customer = Customer::create($attributes);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            // Log in the customer
+            Auth::login($customer);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return redirect('/');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while registering.');
+        }
     }
 }

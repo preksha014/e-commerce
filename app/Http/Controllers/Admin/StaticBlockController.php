@@ -14,9 +14,8 @@ class StaticBlockController extends Controller
      */
     public function index()
     {
-        //
-        $data=StaticBlock::all();
-        return view('dashboard.blocks.index',compact('data'));
+        $data = StaticBlock::all();
+        return view('dashboard.blocks.index', compact('data'));
     }
 
     /**
@@ -24,8 +23,6 @@ class StaticBlockController extends Controller
      */
     public function create()
     {
-        //
-        
         return view('dashboard.blocks.create');
     }
 
@@ -34,33 +31,25 @@ class StaticBlockController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $request->validate([
-            'title'=>'required',
-            'content'=>'required',
-            'status'=>'required'
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required',
+                'content' => 'required',
+                'status' => 'required'
+            ]);
 
-        $data=StaticBlock::create([
-            'title'=>$request->title,
-            'slug'=>Str::slug($request->title),
-            'content'=>$request->content,
-            'status'=>$request->status
-        ]);
+            StaticBlock::create([
+                'title' => $request->title,
+                'slug' => Str::slug($request->title),
+                'content' => $request->content,
+                'status' => $request->status
+            ]);
 
-        if($data){
-            return redirect()->route('admin.block')->with('success','Static block created successfully');
-        }else{      
-            return back()->with('error','Something went wrong, Please try again');
+            return redirect()->route('admin.block')->with('success', 'Static block created successfully');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while creating static block.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -68,9 +57,8 @@ class StaticBlockController extends Controller
      */
     public function edit(Request $request, string $slug)
     {
-        //
-        $data=StaticBlock::where('slug',$slug)->first();
-        return view('dashboard.blocks.edit',compact('data'));
+        $data = StaticBlock::where('slug', $slug)->first();
+        return view('dashboard.blocks.edit', compact('data'));
     }
 
     /**
@@ -78,24 +66,24 @@ class StaticBlockController extends Controller
      */
     public function update(Request $request, string $slug)
     {
-        //
-        $request->validate([
-            'title'=>'required',
-            'content'=>'required',
-            'status'=>'required'
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required',
+                'content' => 'required',
+                'status' => 'required'
+            ]);
 
-        $data=StaticBlock::where('slug',$slug)->update([
-            'title'=>$request->title,
-            'slug'=>Str::slug($request->title),
-            'content'=>$request->content,
-            'status'=>$request->status
-        ]);
+            StaticBlock::where('slug', $slug)->update([
+                'title' => $request->title,
+                'slug' => Str::slug($request->title),
+                'content' => $request->content,
+                'status' => $request->status
+            ]);
 
-        if($data){
-            return redirect()->route('admin.block')->with('success','Static block updated successfully');
-        }else{
-            return back()->with('error','Something went wrong, Please try again');
+            return redirect()->route('admin.block')->with('success', 'Static block updated successfully');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while updating static block.');
         }
     }
 
@@ -104,12 +92,13 @@ class StaticBlockController extends Controller
      */
     public function destroy(string $slug)
     {
-        //
-        $data=StaticBlock::where('slug',$slug)->delete();
-        if($data){
-            return redirect()->route('admin.block')->with('success','Static block deleted successfully');
-        }else{
-            return back()->with('error','Something went wrong, Please try again');
+        try {
+            StaticBlock::where('slug', $slug)->delete();
+
+            return redirect()->route('admin.block')->with('success', 'Static block deleted successfully');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while deleting static block.');
         }
     }
 }

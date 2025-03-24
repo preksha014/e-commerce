@@ -12,7 +12,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="title" class="text-md font-semibold text-gray-700">Title</label>
                     <input type="text" name="title" id="title"
-                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full border block-title border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 @error('title')
@@ -23,7 +23,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="slug" class="text-md font-semibold text-gray-700">Slug</label>
                     <input type="text" name="slug" id="slug"
-                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full border block-slug border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Summernote Editor -->
@@ -48,7 +48,7 @@
                 @error('status')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
-                
+
                 <!-- Submit Button -->
                 <div class="flex justify-end">
                     <button type="submit"
@@ -76,6 +76,17 @@
                     ['insert', ['link', 'picture', 'video']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
+            });
+
+            $('.block-title').on("input", function (e) {
+                e.preventDefault();
+
+                let slug = $(this).val()
+                    .toLowerCase()
+                    .replace(/ /g, "-") // Replace spaces with hyphens
+                    .replace(/[^\w-]+/g, ""); // Remove non-word characters
+
+                if (slug) $('.block-slug').val(slug);
             });
         });
     </script>

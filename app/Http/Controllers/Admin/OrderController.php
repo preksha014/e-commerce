@@ -14,13 +14,17 @@ class OrderController extends Controller
     public function index()
     {
         //
-        $orders = Order::with('customer')->paginate(10);
+        try {
+            $orders = Order::with('customer')->paginate(10);
 
-        $customer = $orders->map(function ($order) {
-            return $order->customer;
-        });
+            $customer = $orders->map(function ($order) {
+                return $order->customer;
+            });
 
-        return view('dashboard.order.index', compact('orders', 'customer'));
+            return view('dashboard.order.index', compact('orders', 'customer'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while fetching orders.');
+        }
     }
 
     /**
@@ -28,30 +32,37 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $order->load('customer', 'order_items');
+        try {
+            $order->load('customer', 'order_items');
 
-        $products = $order->order_items->map(function ($item) {
-            return $item->product;
-        });
-        return view('dashboard.order.show', [
-            'order' => $order,
-            'customer' => $order->customer,
-            'orderItems' => $order->order_items,
-            'products' => $products
-        ]);
+            $products = $order->order_items->map(function ($item) {
+                return $item->product;
+            });
+            return view('dashboard.order.show', [
+                'order' => $order,
+                'customer' => $order->customer,
+                'orderItems' => $order->order_items,
+                'products' => $products
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while fetching order details.');
+        }
     }
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Order $order)
     {
-        $request->validate([
-            'status' => 'required|in:pending,delivered,cancelled',
-        ]);
+        try {
+            $request->validate([
+                'status' => 'required|in:pending,delivered,cancelled',
+            ]);
 
-        $order->update(['status' => $request->status]);
+            $order->update(['status' => $request->status]);
 
-        return redirect()->route('admin.orders')->with('success', 'Order status updated successfully');
+            return redirect()->route('admin.orders')->with('success', 'Order status updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while updating order status.');
+        }
     }
 }

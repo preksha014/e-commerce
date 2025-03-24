@@ -25,8 +25,8 @@ class StoreProductRequest extends FormRequest
             //
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'size' => 'nullable|string',
-            'color' => 'nullable|string',
+            'size' => 'string',
+            'color' => 'string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
             'status' => 'required|string|in:active,inactive', // Ensure status is either 'active' or 'inactive'
