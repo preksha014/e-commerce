@@ -5,7 +5,8 @@
         <div class="w-full max-w-lg p-8 bg-white shadow-xl rounded-lg border border-gray-300">
             <h2 class="text-2xl font-bold text-center text-gray-900 mb-6">Edit Category</h2>
 
-            <form id="editCategoryForm" enctype="multipart/form-data">
+            <form action="{{ route('admin.category.update',$category->id) }}" method="POST" enctype="multipart/form-data">
+                @method('PATCH')
                 @csrf
                 <div>
                     <label for="name" class="block text-md font-medium text-gray-700">Category Name</label>
@@ -30,34 +31,4 @@
             </form>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#editCategoryForm').submit(function(event) {
-                event.preventDefault(); // Prevent default form submission
-    
-                var formData = new FormData(this);
-    
-                $.ajax({
-                    url: "{{ route('admin.category.update', $category->id) }}",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        toastr.success(response.success);
-                        window.location.href = "{{ route('admin.category') }}";
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            var errors = xhr.responseJSON.errors;
-                            $('#error-name').text(errors.name ? errors.name[0] : '');
-                            $('#error-image').text(errors.image ? errors.image[0] : '');
-                        } else {
-                            toastr.error('An error occurred. Please try again.');
-                        }
-                    }
-                });
-            });
-        });
-    </script>
 </x-dashboard-layout>

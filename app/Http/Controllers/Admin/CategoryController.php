@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         try {
             // Fetch all categories
-            $categories = Category::paginate(10);
+            $categories = Category::paginate(2);
 
             // Return view with all categories
             return view('dashboard.category.index', compact('categories'));
@@ -52,11 +52,8 @@ class CategoryController extends Controller
                 'image' => $request->file('image')->store('category_images', 'public'),
             ]);
 
-            if ($request->has('products')) {
-                $category->products()->attach($request->products);
-            }
+            return redirect()->route('admin.category')->with('success', 'Category added successfully.');
 
-            return response()->json(['success' => 'Category added successfully.'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred while adding the category.'], 500);
         }
@@ -94,11 +91,7 @@ class CategoryController extends Controller
 
             $category->update($updatedData);
 
-            if ($request->has('products')) {
-                $category->products()->sync($request->products);
-            }
-
-            return response()->json(['success' => 'Category updated successfully!'], 200);
+            return redirect()->route('admin.category')->with('success', 'Category updated successfully.');
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred while updating the category.'], 500);
         }
@@ -122,7 +115,7 @@ class CategoryController extends Controller
             $category->delete();
 
             // Redirect back with a success message
-            return redirect()->route('admin.category')->with('success', 'Category deleted successfully!');
+            return redirect()->route('admin.category')->with('success', 'Category deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while deleting the category.');
         }
