@@ -10,7 +10,6 @@
                     <tr class="bg-violet-300 text-left text-gray-700">
                         <th class="py-3 px-4 border border-gray-300 text-left">Name</th>
                         <th class="py-3 px-4 border border-gray-300 text-left">Email</th>
-                        <th class="py-3 px-4 border border-gray-300 text-left">Address</th>
                     </tr>
                 </thead>
                 <tbody>

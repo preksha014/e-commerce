@@ -53,18 +53,6 @@
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>                
-                {{-- <div class="mt-3">
-                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                    <select id="category_id" name="category_id" class="w-full mt-1 p-2 border rounded-md bg-white">
-                        <option value="">Select Category</option>i
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('category_id')
-                        <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
-                    @enderror
-                </div> --}}
                 <div class="grid grid-cols-2 gap-3 mt-3">
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-700">Price ($)</label>
@@ -94,7 +82,12 @@
                 </div>
                 <div class="mt-3">
                     <label for="images" class="block text-sm font-medium text-gray-700">Product Images</label>
-                    <input type="file" id="images" name="images[]" multiple class="w-full mt-1 p-2 border rounded-md">
+                    <input type="file" id="images" name="images[]" multiple 
+                           class="w-full mt-1 p-2 border rounded-md" accept="image/*">
+                
+                    <!-- Image Previews Container -->
+                    <div id="imagePreviewContainer" class="flex flex-wrap gap-2 mt-4"></div>
+                
                     @error('images[]')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
@@ -104,3 +97,30 @@
         </div>
     </div>
 </x-dashboard-layout>
+
+<!-- Image Preview Script -->
+<script>
+    document.getElementById('images').addEventListener('change', function (event) {
+        var input = event.target;
+        var previewContainer = document.getElementById('imagePreviewContainer');
+        
+        // Clear previous previews
+        previewContainer.innerHTML = '';
+
+        if (input.files) {
+            Array.from(input.files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    var reader = new FileReader();
+                    var imgElement = document.createElement('img');
+                    imgElement.className = "w-32 h-32 object-cover";
+
+                    reader.onload = function (e) {
+                        imgElement.src = e.target.result;
+                        previewContainer.appendChild(imgElement);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>

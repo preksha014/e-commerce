@@ -50,8 +50,8 @@
                     <div class="mt-1">
                         @foreach($categories as $category)
                             <div class="flex items-center">
-                                <input type="checkbox" id="category_{{ $category->id }}" name="categories[]"
-                                    value="{{ $category->id }}" class="mr-2" {{ in_array($category->id, old('categories', $product->categories->pluck('id')->toArray())) ? 'checked' : '' }}>
+                                <input type="checkbox" id="category_{{ $category->id }}" name="category_ids[]"
+                                value="{{ $category->id }}" class="mr-2" {{ in_array($category->id, old('categories', $product->categories->pluck('id')->toArray())) ? 'checked' : '' }}>
 
                                 <label for="category_{{ $category->id }}"
                                     class="text-gray-700">{{ $category->name }}</label>

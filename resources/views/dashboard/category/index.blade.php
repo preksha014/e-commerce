@@ -13,7 +13,7 @@
         </div>
         @if(session('success'))
             <script>
-                document.addEventListener("DOMContentLoaded", function () {
+                $(document).ready(function () {
                     toastr.success("{{ session('success') }}");
                 });
             </script>
@@ -41,12 +41,12 @@
                             <td class="py-3 px-4 border border-gray-300 space-x-2">
                                 <a href="{{ route('admin.category.edit', $category->id) }}"
                                     class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
-                                    Edit
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                                 <button type="button"
                                     class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
                                     data-action-open data-id="{{ $category->id }}">
-                                    Delete
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -85,8 +85,6 @@
 
 </x-dashboard-layout>
 
-<!-- jQuery Script -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         // Open modal and set category ID

@@ -9,14 +9,20 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/20f5d418fc.js" crossorigin="anonymous"></script>
+
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <!-- jQuery (Required for Toastr) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
     @vite('resource/css/app.css')
 </head>
 
@@ -41,10 +47,10 @@
                     :active="request()->is('admin/order*')">Orders</x-nav-link>
                 <x-nav-link href="{{ route('admin.customers') }}"
                     :active="request()->is('admin/customers*')">Customers</x-nav-link>
-                <x-nav-link href="{{ route('admin.reports') }}"
-                    :active="request()->is('admin/reports')">Reports</x-nav-link>
                 <x-nav-link href="{{ route('admin.block') }}"
                     :active="request()->is('admin/block*')">Blocks</x-nav-link>
+                <x-nav-link href="{{ route('admin.reports') }}"
+                    :active="request()->is('admin/reports')">Reports</x-nav-link>
                 <x-nav-link href="{{ route('admin.logout') }}"
                     :active="request()->is('admin/logout')">Logout</x-nav-link>
         </div>

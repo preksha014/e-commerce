@@ -19,7 +19,7 @@
                     <p id="error-image" class="text-xs text-red-500 font-semibold mt-1"></p>
                     <!-- Rounded Image Preview -->
                     <div class="flex justify-start mt-4">
-                        <img id="imagePreview" class="w-32 h-32 hidden object-cover border border-gray-300 shadow-md">
+                        <img id="imagePreview" class="w-32 h-32 hidden object-cover">
                     </div>
                 </div>
 

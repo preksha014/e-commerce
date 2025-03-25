@@ -11,13 +11,12 @@
                 <div>
                     <label for="name" class="block text-md font-medium text-gray-700">Category Name</label>
                     <input type="text" id="name" name="name" value="{{ $category->name }}" required class="w-full mt-2 p-3 border rounded-lg">
-                    <p id="error-name" class="text-xs text-red-500 font-semibold mt-1"></p>
+                    
                 </div>
             
                 <div>
                     <label for="image" class="block text-md font-medium text-gray-700">Category Image</label>
                     <input type="file" id="image" name="image" accept="image/*" class="w-full mt-2 p-3 border rounded-lg">
-                    <p id="error-image" class="text-xs text-red-500 font-semibold mt-1"></p>
                     
                     @if ($category->image)
                         <div class="mt-3">

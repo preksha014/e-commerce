@@ -12,6 +12,14 @@
             </a>
         </div>
 
+        @if(session('success'))
+            <script>
+                $(document).ready(function () {
+                    toastr.success("{{ session('success') }}");
+                });
+            </script>
+        @endif
+
         <!-- Settings Table -->
         <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
             <table class="w-full border-collapse border border-gray-300 text-center">
@@ -31,23 +39,56 @@
                             <td class="py-3 px-6 border border-gray-300">{{ $block->status }}</td>
                             <td class="py-3 px-4 border border-gray-300 space-x-2">
                                 <a href="{{ route('admin.block.edit', $block->slug) }}"
-                                    class="bg-yellow-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-yellow-600 transition duration-200">
-                                    Edit
+                                    class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <form action="{{ route('admin.block.destroy', $block->slug) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
-                                        onclick="return confirm('Are you sure you want to delete this block?')">
-                                        Delete
-                                    </button>
-                                </form>
+                                <button type="button"
+                                    class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
+                                    data-action-open data-slug="{{ $block->slug }}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-    </div>
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Are you sure?</h2>
+                <p class="text-gray-600">Do you really want to delete this block? <br /> This action cannot be undone.
+                </p>
+                <div class="mt-4 flex justify-end space-x-2">
+                    <button id="cancelDelete"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-600 transition duration-200">
+                        Cancel
+                    </button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
 </x-dashboard-layout>
+
+<script>
+    $(document).ready(function () {
+        // Open modal and set block slug
+        $('[data-action-open]').click(function () {
+            var slug = $(this).data('slug');
+            $('#deleteForm').attr('action', '/admin/block/' + slug + '/delete');
+            $('#deleteModal').removeClass('hidden');
+        });
+
+        // Close modal
+        $('#cancelDelete').click(function () {
+            $('#deleteModal').addClass('hidden');
+        });
+    });
+</script>
