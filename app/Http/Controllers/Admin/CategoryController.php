@@ -44,24 +44,21 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         try {
-            // Validate all form inputs
             $validated = $request->validated();
 
             $category = Category::create([
-                'name' => $request->name,
-                'slug' => Str::slug($validated['name']), // Auto-generate slug from name
+                'name' => $validated['name'],
+                'slug' => Str::slug($validated['name']),
                 'image' => $request->file('image')->store('category_images', 'public'),
             ]);
 
-            // Attach products if provided
             if ($request->has('products')) {
                 $category->products()->attach($request->products);
             }
 
-            // Redirect
-            return redirect()->route('admin.category')->with('success', 'Category added successfully.');
+            return response()->json(['success' => 'Category added successfully.'], 200);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while adding the category.');
+            return response()->json(['error' => 'An error occurred while adding the category.'], 500);
         }
     }
 
@@ -84,31 +81,26 @@ class CategoryController extends Controller
     public function update(StoreCategoryRequest $request, Category $category)
     {
         try {
-            // Validate all forms attributes
             $validated = $request->validated();
 
-            $validated = [
-                'name' => $request->name,
-                'slug' => Str::slug($request->name),
+            $updatedData = [
+                'name' => $validated['name'],
+                'slug' => Str::slug($validated['name']),
             ];
 
-            // If a new image is uploaded, store it and replace the old one
             if ($request->hasFile('image')) {
-                $validated['image'] = $request->file('image')->store('category_images', 'public');
+                $updatedData['image'] = $request->file('image')->store('category_images', 'public');
             }
 
-            // Update the data of category
-            $category->update($validated);
+            $category->update($updatedData);
 
-            // Sync products if provided-->arrange ids of products
             if ($request->has('products')) {
                 $category->products()->sync($request->products);
             }
 
-            // Redirect
-            return redirect()->route('admin.category')->with('success', 'Category updated successfully!');
+            return response()->json(['success' => 'Category updated successfully!'], 200);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while updating the category.');
+            return response()->json(['error' => 'An error occurred while updating the category.'], 500);
         }
     }
 

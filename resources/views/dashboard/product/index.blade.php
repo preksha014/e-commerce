@@ -17,8 +17,7 @@
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
                     <tr class="bg-violet-300 text-left text-gray-700">
-                        <th class="py-3 px-4 border border-gray-300">Product Name</th>
-                        <th class="py-3 px-4 border border-gray-300">Description</th>
+                        <th class="py-3 px-4 border border-gray-300">Product Name</th> 
                         <th class="py-3 px-4 border border-gray-300">Size</th>
                         <th class="py-3 px-4 border border-gray-300">Color</th>
                         <th class="py-3 px-4 border border-gray-300">Category</th>
@@ -33,10 +32,6 @@
                     @foreach ($products as $product)
                         <tr class="even:bg-gray-100 text-gray-700">
                             <td class="py-3 px-4 border border-gray-300">{{ $product->name }}</td>
-                            <td class="py-3 px-4 border border-gray-300 max-w-xs break-words">
-                                {{ $product->description }}
-                            </td>
-                            {{-- <td class="py-3 px-4 border border-gray-300">{{ $product->description }}</td> --}}
                             <td class="py-3 px-4 border border-gray-300">{{ $product->size}}</td>
                             <td class="py-3 px-4 border border-gray-300">{{ $product->color}}</td>
                             <td class="py-3 px-4 border border-gray-300">

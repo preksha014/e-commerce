@@ -59,25 +59,58 @@
           <!-- Action Buttons -->
           <div class="flex gap-4 mt-6">
             <div class="flex-1">
-                <form action="{{ route('cart.add', $product->slug) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->slug }}">
-                    <button 
-                        type="submit" 
-                        class="w-full h-12 bg-violet-800 text-white font-semibold rounded-lg hover:bg-violet-600 transition">
-                        Add to Cart
-                    </button>
-                </form>
-            </div>
-        
-            <div class="flex-1">
-                <button 
-                    class="w-full h-12 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition">
-                    Wishlist
+              <form action="{{ route('cart.add', $product->slug) }}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->slug }}">
+                <button data-slug="{{ $product->slug }}" type="submit"
+                  class="add-to-cart w-full h-12 bg-violet-800 text-white font-semibold rounded-lg hover:bg-violet-600 transition">
+                  Add to Cart
                 </button>
+              </form>
+              <!-- CSRF Token (for AJAX requests) -->
+              <meta name="csrf-token" content="{{ csrf_token() }}">
             </div>
-        </div>        
+
+            <div class="flex-1">
+              <button
+                class="w-full h-12 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition">
+                Wishlist
+              </button>
+            </div>
+          </div>
       </section>
     </main>
-
+    <script>
+      $(document).on('click', '.add-to-cart', function (e) {
+        e.preventDefault();
+        let slug = $(this).data('slug');
+        let quantity = 1; // Default quantity
+        // console.log(slug);
+        $.ajax({
+          url: "/cart/add/" + slug, // Corrected URL format
+          type: "POST",
+          data: {
+            slug: slug,
+            quantity: quantity,
+            _token: $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: "json", // Ensure response is treated as JSON
+          success: function (response) {
+            if (response.message) {
+              toastr.success(response.message);
+            }
+            if (typeof updateCartUI === "function") {
+              updateCartUI(response);
+            }
+          },
+          error: function (xhr) {
+            let errorMessage = "Failed to add item to cart.";
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+              errorMessage = xhr.responseJSON.message;
+            } p
+            toastr.error(errorMessage);
+          }
+        });
+      });
+    </script>
 </x-layout>

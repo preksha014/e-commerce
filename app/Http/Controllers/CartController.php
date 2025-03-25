@@ -36,13 +36,14 @@ class CartController extends Controller
             $result = $this->cartService->addToCart($request->slug, $request->input('quantity', 1));
 
             return response()->json([
-                'message' => 'Item added to cart',
+                'message' => 'Item added to cart successfully!',
                 'cart' => $result['cart'],
                 'cart_total' => $result['cart_total'],
                 'cart_count' => $result['cart_count'],
             ]);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to add item to cart'], 500);
+            \Log::error('Add to cart failed: ' . $e->getMessage()); // Log error
+            return response()->json(['message' => 'Failed to add item to cart. Please try again.'], 500);
         }
     }
 
@@ -52,12 +53,13 @@ class CartController extends Controller
             $success = $this->cartService->updateCart($slug, $request->action);
 
             if ($success) {
-                return redirect()->back()->with('success', 'Cart updated successfully');
+                return response()->json(['message' => 'Cart updated successfully'], 200);
             }
 
-            return redirect()->back()->with('error', 'Item not found in cart');
+            return response()->json(['message' => 'Item not found in cart'], 404);
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Failed to update cart. Please try again.');
+            \Log::error('Cart update failed: ' . $e->getMessage()); // Log error
+            return response()->json(['message' => 'Failed to update cart. Please try again.'], 500);
         }
     }
 
@@ -67,8 +69,8 @@ class CartController extends Controller
             $result = $this->cartService->removeFromCart($slug);
 
             return response()->json([
-                'message' => 'Item removed from cart', 
-                'cart' => $result['cart'], 
+                'message' => 'Item removed from cart',
+                'cart' => $result['cart'],
                 'cart_total' => $result['cart_total']
             ]);
         } catch (Exception $e) {
