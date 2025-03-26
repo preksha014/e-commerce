@@ -100,7 +100,8 @@ class CartService
 
         return [
             'cart' => $cart,
-            'cart_total' => session('cart_total')
+            'cart_total' => session('cart_total'),
+            'cart_count' => session('cart_count')
         ];
     }
 }

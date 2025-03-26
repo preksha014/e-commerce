@@ -29,9 +29,9 @@ function updateCartUI(response) {
     // Update cart total if available
     if (response.cart_total !== undefined) {
         if (response.cart_total > 0) {
-            $('.cart-total').text(`$${response.cart_total.toFixed(2)}`);
+            $('.cart-total').text(`${response.cart_total.toFixed(2)}₹`);
         } else {
-            $('.cart-total').text('$0.00');
+            $('.cart-total').text('0.00₹');
         }
     }
 
@@ -39,10 +39,10 @@ function updateCartUI(response) {
     if (response.deleted || (response.item && response.item.quantity <= 0)) {
         const slug = response.deleted || response.item.slug;
         const $row = $(`tr[data-slug="${slug}"]`);
-        $row.fadeOut('fast', function() {
+        $row.fadeOut('fast', function () {
             $(this).remove();
             // Check if cart is empty after removal
-            if ($('.cart-items tr').length === 0 || response.is_empty || response.cart_count === 0) {
+            if (response.cart_count === 0) {
                 const $cartContainer = $('.overflow-x-auto').closest('section');
                 $cartContainer.html(
                     '<div class="border border-gray-200 bg-white p-6 text-center shadow-sm">' +
@@ -55,9 +55,9 @@ function updateCartUI(response) {
 }
 
 // Handle add to cart and quantity update button clicks
-$(document).ready(function() {
+$(document).ready(function () {
     // Handle quantity update
-    $(document).on('click', '.update-cart', function(e) {
+    $(document).on('click', '.update-cart', function (e) {
         e.preventDefault();
         const $button = $(this);
         const slug = $button.data('slug');
@@ -70,13 +70,13 @@ $(document).ready(function() {
                 action: action,
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
-            success: function(response) {
+            success: function (response) {
                 if (response.message) {
                     toastr.success(response.message);
                 }
                 updateCartUI(response);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 const errorMessage = xhr.responseJSON?.message || 'Failed to update quantity.';
                 toastr.error(errorMessage);
             }
@@ -84,7 +84,7 @@ $(document).ready(function() {
     });
 
     // Handle add to cart button clicks
-    $(document).on('click', '.add-to-cart', function(e) {
+    $(document).on('click', '.add-to-cart', function (e) {
         e.preventDefault();
         const slug = $(this).data('slug');
         const quantity = 1; // Default quantity
@@ -98,13 +98,13 @@ $(document).ready(function() {
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'json',
-            success: function(data) {
-                if (data.message) {
-                    toastr.success(data.message);
+            success: function (response) {
+                if (response.message) {
+                    toastr.success(response.message);
                 }
-                updateCartUI(data);
+                updateCartUI(response);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 const errorMessage = xhr.responseJSON?.message || 'Failed to add item to cart.';
                 toastr.error(errorMessage);
                 console.error('Error:', xhr);
@@ -113,7 +113,7 @@ $(document).ready(function() {
     });
 
     // Handle delete from cart
-    $(document).on('click', '.remove-from-cart', function(e) {
+    $(document).on('click', '.remove-from-cart', function (e) {
         e.preventDefault();
         const $button = $(this);
         const slug = $button.data('slug');
@@ -124,19 +124,19 @@ $(document).ready(function() {
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content')
             },
-            success: function(response) {
+            success: function (response) {
                 if (response.message) {
                     toastr.success(response.message);
                 }
                 response.deleted = slug;
                 updateCartUI(response);
-                
+
                 // Update cart total
                 if (response.cart_total !== undefined) {
                     $('.cart-total').text(`$${response.cart_total.toFixed(2)}`);
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 const errorMessage = xhr.responseJSON?.message || 'Failed to remove item from cart.';
                 toastr.error(errorMessage);
             }

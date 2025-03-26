@@ -24,7 +24,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     @foreach($cart as $id => $item)
-                                        <tr class="hover:bg-gray-50" data-slug="{{ $item['slug'] }}">
+                                        <tr class="hover:bg-gray-50" data-slug="{{ $item['slug'] }}" id="item-{{  $item['slug']  }}">
                                             <td class="px-6 py-4">
                                                 <div class="flex items-center gap-4">
                                                     <img class="h-20 w-20 object-cover"
@@ -110,7 +110,7 @@
                 <!-- Order Summary Section -->
                 <section class="mt-8 w-full lg:mt-0 lg:w-80">
                     <div class="sticky top-8">
-                        <x-order-summary :cart_total="$cart_total" :cart_count="$cart_count">
+                        <x-order-summary :cart_total="$cart_total" :cart_count="$cart_count">  
                             <a href="/checkout-address" class="mt-6 block">
                                 <button
                                     class="w-full bg-violet-900 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2">
