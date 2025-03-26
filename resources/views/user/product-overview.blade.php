@@ -67,8 +67,6 @@
                   Add to Cart
                 </button>
               </form>
-              <!-- CSRF Token (for AJAX requests) -->
-              <meta name="csrf-token" content="{{ csrf_token() }}">
             </div>
 
             <div class="flex-1">
@@ -80,37 +78,5 @@
           </div>
       </section>
     </main>
-    <script>
-      $(document).on('click', '.add-to-cart', function (e) {
-        e.preventDefault();
-        let slug = $(this).data('slug');
-        let quantity = 1; // Default quantity
-        // console.log(slug);
-        $.ajax({
-          url: "/cart/add/" + slug, // Corrected URL format
-          type: "POST",
-          data: {
-            slug: slug,
-            quantity: quantity,
-            _token: $('meta[name="csrf-token"]').attr('content')
-          },
-          dataType: "json", // Ensure response is treated as JSON
-          success: function (response) {
-            if (response.message) {
-              toastr.success(response.message);
-            }
-            if (typeof updateCartUI === "function") {
-              updateCartUI(response);
-            }
-          },
-          error: function (xhr) {
-            let errorMessage = "Failed to add item to cart.";
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-              errorMessage = xhr.responseJSON.message;
-            } p
-            toastr.error(errorMessage);
-          }
-        });
-      });
-    </script>
+
 </x-layout>

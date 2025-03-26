@@ -5,7 +5,7 @@
             <div class="lg:flex lg:gap-8">
                 <!-- Cart Items Section -->
                 <section class="flex-grow px-4 lg:px-0">
-                    @if($cart && count($cart) > 0)
+                    @if(!$is_empty)
                         <div class="overflow-x-auto border border-gray-200 shadow-sm">
                             <table class="w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
@@ -24,7 +24,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     @foreach($cart as $id => $item)
-                                        <tr class="hover:bg-gray-50">
+                                        <tr class="hover:bg-gray-50" data-slug="{{ $item['slug'] }}">
                                             <td class="px-6 py-4">
                                                 <div class="flex items-center gap-4">
                                                     <img class="h-20 w-20 object-cover"
@@ -56,15 +56,15 @@
                                                             </svg>
                                                         </button>
                                                     </form>
-                                                    <span class="w-8 text-center text-sm">{{ $item['quantity'] }}</span>
+                                                    <span class="quantity-value w-8 text-center text-sm">{{ $item['quantity'] }}</span>
                                                     <form
                                                         action="{{ route('cart.update', ['slug' => $item['slug'], 'action' => 'increment']) }}"
                                                         method="POST" class="inline">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button data-slug="{{ $item['slug'] }}" data-slug="{{ $item['slug'] }}"
-                                                            data-action="increment" type="submit"
-                                                            class="update-cart inline-flex h-8 w-8 items-center justify-center border border-gray-300 bg-white text-gray-500 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2  focus:ring-gray-500 focus:ring-offset-2">
+                                                        <button data-slug="{{ $item['slug'] }}" data-action="increment"
+                                                            type="submit"
+                                                            class="update-cart inline-flex h-8 w-8 items-center justify-center border border-gray-300 bg-white text-gray-500 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
                                                                 viewBox="0 0 20 20" fill="currentColor">
                                                                 <path fill-rule="evenodd"
@@ -75,7 +75,7 @@
                                                     </form>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 text-center text-sm font-medium text-gray-900">
+                                            <td class="px-6 py-4 text-center text-sm font-medium text-gray-900 item-total">
                                                 &#36;{{ number_format($item['price'] * $item['quantity'], 2) }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
@@ -122,53 +122,4 @@
                 </section>
             </div>
     </section>
-
-    <script>
-        $(document).ready(function () {
-            // Update Cart Quantity
-            $('.update-cart').click(function (e) {
-                e.preventDefault();
-                let slug = $(this).data('slug');
-                let action = $(this).data('action'); // Get action from button
-                // console.log(slug, action);
-
-                $.ajax({
-                    url: "/cart/update/" + slug,  // Ensure the correct URL format
-                    type: "PATCH",
-                    data: { action: action, _token: "{{ csrf_token() }}" },
-                    success: function (response) {
-                        toastr.success("Cart updated successfully!");
-                    },
-                    error: function (xhr) {
-                        console.log(xhr.responseText); // Log error response for debugging
-                        toastr.error("Failed to update cart.");
-                    }
-                });
-            });
-
-
-            // Remove from Cart
-            $('.remove-from-cart').click(function (e) {
-                e.preventDefault();
-                let slug = $(this).data('slug');
-
-                $.ajax({
-                    url: "/cart/remove/" + slug,
-                    type: "DELETE",
-                    data: { _token: "{{ csrf_token() }}" },
-                    success: function (response) {
-                        toastr.success(response.message);
-                    },
-                    error: function () {
-                        toastr.error("Failed to remove item.");
-                    }
-                });
-            });
-
-            function updateCartUI(response) {
-                $('#cart-count').text(response.cart_count);
-                $('#cart-total').text("$" + response.cart_total.toFixed(2));
-            }
-        });
-    </script>
 </x-layout>

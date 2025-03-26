@@ -72,9 +72,8 @@ class CartService
         if ($action === 'increment') {
             $cart[$slug]['quantity']++;
         } elseif ($action === 'decrement') {
-            if ($cart[$slug]['quantity'] > 1) {
-                $cart[$slug]['quantity']--;
-            } else {
+            $cart[$slug]['quantity']--;
+            if ($cart[$slug]['quantity'] <= 0) {
                 unset($cart[$slug]);
             }
         }

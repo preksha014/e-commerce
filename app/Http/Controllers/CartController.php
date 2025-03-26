@@ -19,11 +19,13 @@ class CartController extends Controller
     {
         try {
             $cart = $this->cartService->getCart();
+            $is_empty = empty($cart);
 
             return view('user.cart', [
                 'cart' => $cart,
                 'cart_total' => session('cart_total', 0),
-                'cart_count' => session('cart_count', 0)
+                'cart_count' => session('cart_count', 0),
+                'is_empty' => $is_empty
             ]);
         } catch (Exception $e) {
             return back()->with('error', 'Failed to load cart. Please try again.');
@@ -50,13 +52,33 @@ class CartController extends Controller
     public function updateCart(string $slug, Request $request)
     {
         try {
-            $success = $this->cartService->updateCart($slug, $request->action);
+            $result = $this->cartService->updateCart($slug, $request->action);
+            $cart = $result['cart'];
+            
+            if (!isset($cart[$slug]) && $request->action !== 'decrement') {
+                return response()->json(['message' => 'Item not found in cart'], 404);
+            }
+            
+            $response = [
+                'cart_count' => session('cart_count', 0),
+                'cart_total' => session('cart_total', 0)
+            ];
 
-            if ($success) {
-                return response()->json(['message' => 'Cart updated successfully'], 200);
+            if (empty($cart)) {
+                $response['message'] = 'Your cart is empty';
+                $response['is_empty'] = true;
+            } else {
+                $response['message'] = 'Cart updated successfully';
+                if (isset($cart[$slug])) {
+                    $response['item'] = [
+                        'slug' => $slug,
+                        'quantity' => $cart[$slug]['quantity'],
+                        'price' => $cart[$slug]['price']
+                    ];
+                }
             }
 
-            return response()->json(['message' => 'Item not found in cart'], 404);
+            return response()->json($response);
         } catch (Exception $e) {
             \Log::error('Cart update failed: ' . $e->getMessage()); // Log error
             return response()->json(['message' => 'Failed to update cart. Please try again.'], 500);
@@ -67,11 +89,13 @@ class CartController extends Controller
     {
         try {
             $result = $this->cartService->removeFromCart($slug);
+            $is_empty = empty($result['cart']);
 
             return response()->json([
                 'message' => 'Item removed from cart',
                 'cart' => $result['cart'],
-                'cart_total' => $result['cart_total']
+                'cart_total' => $result['cart_total'],
+                'is_empty' => $is_empty
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to remove item from cart'], 500);

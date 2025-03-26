@@ -11,6 +11,7 @@
 <link rel="mask-icon" href="{{asset('safari-pinned-tab.svg')}}" color="#207891" />
 <meta name="msapplication-TileColor" content="#ffc40d" />
 <meta name="theme-color" content="#ffffff" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,3 +19,6 @@
 <!-- Toastr CSS & JS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Cart JS -->
+@vite(['resources/js/cart.js'])

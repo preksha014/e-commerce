@@ -31,51 +31,11 @@
             <p class="font-medium text-violet-900">${{ $product->price }}</p>
 
             <div>
-                <form action="{{ route('cart.add', $product->slug) }}" method="POST" class="add-to-cart-form">
-                    @csrf
-                    <button type="button" data-slug="{{ $product->slug }}"
-                        class="add-to-cart my-5 h-10 w-full bg-violet-900 text-white">
-                        Add to Cart
-                    </button>
-                </form>
-
-                <!-- CSRF Token (for AJAX requests) -->
-                <meta name="csrf-token" content="{{ csrf_token() }}">
+                <button type="button" data-slug="{{ $product->slug }}"
+                    class="add-to-cart my-5 h-10 w-full bg-violet-900 text-white hover:bg-violet-800 transition">
+                    Add to Cart
+                </button>
             </div>
         </div>
     </div>
 @endforeach
-
-<script>
-    $(document).on('click', '.add-to-cart', function (e) {
-        e.preventDefault();
-        let slug = $(this).data('slug');
-        let quantity = 1; // Default quantity
-        // console.log(slug);
-        $.ajax({
-            url: "/cart/add/" + slug, // Corrected URL format
-            type: "POST",
-            data: {
-                slug: slug,
-                quantity: quantity,
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: "json", // Ensure response is treated as JSON
-            success: function (response) {
-                if (response.message) {
-                    toastr.success(response.message);
-                }
-                if (typeof updateCartUI === "function") {
-                    updateCartUI(response);
-                }
-            },
-            error: function (xhr) {
-                let errorMessage = "Failed to add item to cart.";
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                }
-                toastr.error(errorMessage);
-            }
-        });
-    });
-</script>
