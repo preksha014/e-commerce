@@ -1,5 +1,5 @@
 @props(['block'])
 
 <div class="relative">
-    {!! $block->content !!}
+    {!! $block !!}
 </div> 

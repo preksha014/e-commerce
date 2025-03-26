@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Admin\StaticBlockController;
+use App\Http\Controllers\Admin\StaticPageController;
 
 //Admin Routes
 Route::prefix("admin")->group(function () {
@@ -45,8 +46,6 @@ Route::prefix("admin")->group(function () {
 
         Route::get('/customers', [CustomerController::class,'index'])->name("admin.customers");
 
-        Route::get('/reports', [DashboardController::class,'report'])->name("admin.reports");
-
         Route::prefix('block')->group(function(){
             Route::get('/',[StaticBlockController::class,'index'])->name('admin.block');
 
@@ -58,6 +57,20 @@ Route::prefix("admin")->group(function () {
 
             Route::delete('/{slug}/delete',[StaticBlockController::class,'destroy'])->name('admin.block.destroy');
         });
+
+        Route::prefix('page')->group(function(){
+            Route::get('/',[StaticPageController::class,'index'])->name('admin.page');
+
+            Route::get('/create',[StaticPageController::class,'create'])->name('admin.page.create');
+            Route::post('/create',[StaticPageController::class,'store'])->name('admin.page.store');
+
+            Route::get('/{slug}/edit',[StaticPageController::class,'edit'])->name('admin.page.edit');
+            Route::post('/{slug}/update',[StaticPageController::class,'update'])->name('admin.page.update');
+
+            Route::delete('/{slug}/delete',[StaticPageController::class,'destroy'])->name('admin.page.destroy');
+        });
+
+        Route::get('/reports', [DashboardController::class,'report'])->name("admin.reports");
         
         Route::get('/logout', [AdminLogin::class, "logout"])->name("admin.logout");
     });

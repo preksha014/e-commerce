@@ -48,7 +48,9 @@
                 <x-nav-link href="{{ route('admin.customers') }}"
                     :active="request()->is('admin/customers*')">Customers</x-nav-link>
                 <x-nav-link href="{{ route('admin.block') }}"
-                    :active="request()->is('admin/block*')">Blocks</x-nav-link>
+                    :active="request()->is('admin/block*')">Static Blocks</x-nav-link>
+                <x-nav-link href="{{ route('admin.page') }}"
+                    :active="request()->is('admin/page*')">Static Pages</x-nav-link>
                 <x-nav-link href="{{ route('admin.reports') }}"
                     :active="request()->is('admin/reports')">Reports</x-nav-link>
                 <x-nav-link href="{{ route('admin.logout') }}"

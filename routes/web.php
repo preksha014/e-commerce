@@ -1,6 +1,7 @@
 <?php
 @include 'admin.php';
 
+use App\Http\Controllers\User\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\SessionController as UserLogin;
 use App\Http\Controllers\User\RegisteredUserController as UserRegister;
@@ -44,6 +45,8 @@ Route::middleware('auth:customer')->group(function () {
     Route::get('/checkout-review', [CheckoutController::class, 'showReviewPage'])->name('checkout.review');
     Route::post('/checkout-review', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
     Route::view('/checkout-confimation', 'user.checkout-confirmation')->name('checkout.confirmation');
+
+    Route::get('/terms-condition',[PageController::class,'show'])->name('terms&conditions');
 });
 
 Route::get("signup", [UserRegister::class, "create"]);

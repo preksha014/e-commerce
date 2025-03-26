@@ -5,7 +5,7 @@
             <div class="lg:flex lg:gap-8">
                 <!-- Cart Items Section -->
                 <section class="flex-grow px-4 lg:px-0">
-                    @if(!$is_empty)
+                    @if(!$cart_count==0)
                         <div class="overflow-x-auto border border-gray-200 shadow-sm">
                             <table class="w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
