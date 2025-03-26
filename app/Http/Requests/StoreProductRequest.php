@@ -29,8 +29,8 @@ class StoreProductRequest extends FormRequest
             'color' => 'string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
-            'status' => 'required|string|in:active,inactive', // Ensure status is either 'active' or 'inactive'
-            'category_ids' => 'required|array',
+            'status' => 'required|string|in:active,inactive',
+            'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:categories,id',
         ];
     }

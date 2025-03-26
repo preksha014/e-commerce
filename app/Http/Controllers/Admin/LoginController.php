@@ -33,7 +33,7 @@ class LoginController extends Controller
 
             request()->session()->regenerate();
 
-            return redirect('admin/dashboard');
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome back!');
         } catch (ValidationException $e) {
             return redirect()->back()->with('error', 'An error occurred while logging in.');
         }
@@ -43,7 +43,7 @@ class LoginController extends Controller
     {
         try {
             Auth::guard("admin")->logout();
-            return redirect('admin/login');
+            return redirect()->route('login')->with('success', 'You have been logged out.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while logging out.');
         }

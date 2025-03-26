@@ -46,7 +46,7 @@ class ProductController extends Controller
     {
         try {
             $request->validated();
-            
+
             $product = Product::create(array_merge(
                 $request->except(['category_ids', 'status']),
                 [
@@ -72,6 +72,12 @@ class ProductController extends Controller
         }
     }
 
+    public function show(Product $product)
+    {
+        $product=Product::with('categories')->find($product->id);
+        return view('dashboard.product.show', compact('product'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -92,7 +98,7 @@ class ProductController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             $product->update([
                 'name' => $validated['name'],
                 'description' => $validated['description'],
@@ -103,7 +109,8 @@ class ProductController extends Controller
                 'status' => $validated['status'] === 'active' ? 1 : 0,
             ]);
 
-            $product->categories()->sync($validated['categories']);
+            // Ensure categories are updated correctly
+            $product->categories()->sync($validated['category_ids']);
 
             if ($request->hasFile('images')) {
                 foreach ($product->images as $image) {

@@ -57,20 +57,23 @@ class CartService
         ];
     }
 
-    public function updateCart(string $slug, string $action): bool
+    public function updateCart(string $slug, string $action): array
     {
         $cart = $this->getCart();
 
         if (!isset($cart[$slug])) {
-            return false;
+            return [
+                'cart' => $cart,
+                'cart_total' => session('cart_total'),
+                'cart_count' => session('cart_count')
+            ];
         }
 
         if ($action === 'increment') {
             $cart[$slug]['quantity']++;
         } elseif ($action === 'decrement') {
-            if ($cart[$slug]['quantity'] > 1) {
-                $cart[$slug]['quantity']--;
-            } else {
+            $cart[$slug]['quantity']--;
+            if ($cart[$slug]['quantity'] <= 0) {
                 unset($cart[$slug]);
             }
         }
@@ -78,7 +81,11 @@ class CartService
         session(['cart' => $cart]);
         $this->calculateCartTotals($cart);
 
-        return true;
+        return [
+            'cart' => $cart,
+            'cart_total' => session('cart_total'),
+            'cart_count' => session('cart_count')
+        ];
     }
 
     public function removeFromCart(string $slug): array

@@ -6,6 +6,14 @@
         <!-- Page Header -->
         <h2 class="text-2xl font-bold text-gray-700">Orders Management</h2>
 
+        @if(session('success'))
+            <script>
+                $(document).ready(function () {
+                    toastr.success("{{ session('success') }}");
+                });
+            </script>
+        @endif
+
         <!-- Orders Table -->
         <div class="bg-white p-6 rounded-lg shadow-md">
             <table class="w-full border-collapse border border-gray-300">
@@ -34,8 +42,8 @@
 
                             <td class="py-3 px-4 border border-gray-300">
                                 <a href="{{ route('admin.order.show', $order->id) }}"
-                                    class="bg-green-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-green-600 transition">
-                                    View
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-blued-600 transition">
+                                    <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>
                         </tr>

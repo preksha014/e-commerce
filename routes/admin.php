@@ -22,6 +22,7 @@ Route::prefix("admin")->group(function () {
             Route::get('/', [ProductController::class, 'index'])->name("admin.product");
             Route::get('/create', [ProductController::class, 'create'])->name("admin.product.create");
             Route::post('/create', [ProductController::class, 'store'])->name("admin.product.store");
+            Route::get('/{product}', [ProductController::class, 'show'])->name("admin.product.show");
             Route::get('/{product}/edit', [ProductController::class, 'edit'])->name("admin.product.edit");
             Route::patch('/{product}/update', [ProductController::class, 'update'])->name("admin.product.update");
             Route::delete('/{product}/delete', [ProductController::class, 'destroy'])->name('admin.product.destroy');
@@ -32,7 +33,7 @@ Route::prefix("admin")->group(function () {
             Route::get('/create', [CategoryController::class, 'create'])->name("admin.category.create");
             Route::post('/create', [CategoryController::class, 'store'])->name("admin.category.store");
             Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name("admin.category.edit");
-            Route::post('/{category}/update', [CategoryController::class, 'update'])->name("admin.category.update");
+            Route::patch('/{category}/update', [CategoryController::class, 'update'])->name("admin.category.update");
             Route::delete('/{category}/delete', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         });
 

@@ -29,7 +29,7 @@
                 <!-- Summernote Editor -->
                 <div class="flex flex-col space-y-1">
                     <label for="summernote" class="text-md font-semibold text-gray-700">Content</label>
-                    <textarea name="content" id="summernote">{{ old('content', $data->content ?? '') }}</textarea>
+                    <textarea name="content" id="summernote">{{ $data->content }}</textarea>
                 </div>
 
                 @error('content')
