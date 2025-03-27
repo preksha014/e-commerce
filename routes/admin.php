@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Admin\StaticBlockController;
 use App\Http\Controllers\Admin\StaticPageController;
+use App\Models\Contact;
 
 //Admin Routes
 Route::prefix("admin")->group(function () {
@@ -71,6 +72,11 @@ Route::prefix("admin")->group(function () {
         });
 
         Route::get('/reports', [DashboardController::class,'report'])->name("admin.reports");
+        
+        Route::get('/admin/contacts', function () {
+            $contacts = Contact::latest()->get();
+            return view('dashboard.contacts', compact('contacts'));
+        })->name('admin.contacts');
         
         Route::get('/logout', [AdminLogin::class, "logout"])->name("admin.logout");
     });

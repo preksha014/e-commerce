@@ -53,6 +53,8 @@
                     :active="request()->is('admin/page*')">Static Pages</x-nav-link>
                 <x-nav-link href="{{ route('admin.reports') }}"
                     :active="request()->is('admin/reports')">Reports</x-nav-link>
+                <x-nav-link href="{{ route('admin.contacts') }}"
+                    :active="request()->is('admin/contacts')">Contacts</x-nav-link>
                 <x-nav-link href="{{ route('admin.logout') }}"
                     :active="request()->is('admin/logout')">Logout</x-nav-link>
         </div>

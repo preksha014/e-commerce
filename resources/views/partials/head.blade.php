@@ -19,6 +19,7 @@
     </button>
   </form>
 
+  @auth('customer')
   <div class="hidden gap-3 md:!flex">
     <a href="#" class="flex cursor-pointer flex-col items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -30,7 +31,6 @@
       <p class="text-xs">Wishlist</p>
     </a>
 
-    @auth('customer')
     <a href="{{ route('cart.view') }}" class="relative flex cursor-pointer flex-col items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
         <path fill-rule="evenodd"
@@ -44,7 +44,6 @@
       </span>
       <p class="text-xs">Cart</p>
     </a>
-    @endauth
 
     <a href="/account" class="relative flex cursor-pointer flex-col items-center justify-center">
       <span class="absolute bottom-[33px] right-1 flex h-2 w-2">
@@ -60,6 +59,7 @@
 
       <p class="text-xs">Account</p>
     </a>
+    @endauth
   </div>
 </header>
 <!-- /Header -->

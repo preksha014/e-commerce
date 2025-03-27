@@ -14,7 +14,7 @@ use App\Http\Controllers\CheckoutController;
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', "index")->name('home');
     Route::get('/about', "about");
-    Route::get('/contact', "contact");
+    // Route::get('/contact', "contact");
 });
 
 Route::controller(UserProducts::class)->group(function () {
@@ -45,6 +45,9 @@ Route::middleware('auth:customer')->group(function () {
     Route::get('/checkout-review', [CheckoutController::class, 'showReviewPage'])->name('checkout.review');
     Route::post('/checkout-review', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
     Route::view('/checkout-confimation', 'user.checkout-confirmation')->name('checkout.confirmation');
+
+    Route::get('/contact', [HomeController::class,'contact'])->name('contact');
+    Route::post('/contact-submit', [HomeController::class, 'submit'])->name('contact.submit');
 
     Route::get('/terms-condition',[PageController::class,'show'])->name('terms&conditions');
 });
