@@ -10,5 +10,6 @@ class StaticPage extends Model
     //
     use HasFactory;
 
+    const ACTIVE_STATUS='active';
     protected $fillable = ['title', 'slug', 'content', 'status'];
 }

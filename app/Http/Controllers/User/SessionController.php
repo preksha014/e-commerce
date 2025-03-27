@@ -39,4 +39,8 @@ class SessionController extends Controller
             return redirect()->back()->with('error', 'An error occurred while logging in.');
         }
     }
+    public function logout() {
+        Auth::guard("customer")->logout();
+        return redirect('/');
+    }
 }

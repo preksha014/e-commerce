@@ -9,7 +9,7 @@ class PageController extends Controller
 {
     //
     public function show(string $slug="terms-conditions"){
-        $page = StaticPage::where('slug', $slug)->where('status', 'active')->first();
+        $page = StaticPage::where('slug', $slug)->where('status', StaticPage::ACTIVE_STATUS)->first();
         if(!$page){
             abort(404);
         }

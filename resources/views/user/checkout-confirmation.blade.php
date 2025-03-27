@@ -26,9 +26,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($order as $item)
+                            @foreach($order->order_items as $item)
                                 <tr class="text-gray-700">
-                                    <td class="p-3 border">{{ $item['name'] }}</td>
+                                    {{-- {{ dd($item->product->name) }} --}}
+                                    <td class="p-3 border">{{ $item->product->name }}</td>
                                     <td class="p-3 border text-center">{{ $item['quantity'] }}</td>
                                     <td class="p-3 border text-right"> {{ number_format($item['price']) }} ₹</td>
                                 </tr>

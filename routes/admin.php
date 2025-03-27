@@ -53,7 +53,7 @@ Route::prefix("admin")->group(function () {
             Route::post('/create',[StaticBlockController::class,'store'])->name('admin.block.store');
 
             Route::get('/{slug}/edit',[StaticBlockController::class,'edit'])->name('admin.block.edit');
-            Route::post('/{slug}/update',[StaticBlockController::class,'update'])->name('admin.block.update');
+            Route::patch('/{slug}/update',[StaticBlockController::class,'update'])->name('admin.block.update');
 
             Route::delete('/{slug}/delete',[StaticBlockController::class,'destroy'])->name('admin.block.destroy');
         });
@@ -65,7 +65,7 @@ Route::prefix("admin")->group(function () {
             Route::post('/create',[StaticPageController::class,'store'])->name('admin.page.store');
 
             Route::get('/{slug}/edit',[StaticPageController::class,'edit'])->name('admin.page.edit');
-            Route::post('/{slug}/update',[StaticPageController::class,'update'])->name('admin.page.update');
+            Route::patch('/{slug}/update',[StaticPageController::class,'update'])->name('admin.page.update');
 
             Route::delete('/{slug}/delete',[StaticPageController::class,'destroy'])->name('admin.page.destroy');
         });

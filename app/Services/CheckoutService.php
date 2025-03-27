@@ -54,8 +54,7 @@ class CheckoutService
         $this->createPayment($order->id, $paymentData);
 
         // // Clear session
-        // $this->clearCheckoutSession();
-
+        $this->clearCheckoutSession();
         return $order;
     }
 

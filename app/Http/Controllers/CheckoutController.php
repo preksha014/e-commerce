@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\CheckoutService;
 use App\Services\CartService;
 use Exception;
+use App\Events\OrderPlaced;
 
 class CheckoutController extends Controller
 {
@@ -46,7 +47,7 @@ class CheckoutController extends Controller
     }
 
     // Step 2: Payment Page
-    public function showPaymentPage()
+    public function showPaymentPage(Request $request)
     {
         try {
             return view('user.checkout-payment');
@@ -82,10 +83,14 @@ class CheckoutController extends Controller
 
     public function placeOrder()
     {
-        try {
+        try {  
             $customer = $this->checkoutService->getCustomer(auth()->user()->id);
-            $order = $this->cartService->getCart();
-            $total = $this->cartService->getTotal();
+            $order = $this->checkoutService->placeOrder($customer->id);
+            
+            $total = $this->cartService->getTotal();    
+            $order->load('order_items');
+            event(new OrderPlaced($order));
+
             return view('user.checkout-confirmation', compact('customer', 'order', 'total'));
         } catch (Exception $e) {
             return back()->with('error', 'Failed to place order. Please try again.');
