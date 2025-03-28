@@ -20,5 +20,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- Cart JS -->
-@vite(['resources/js/cart.js'])
+<!-- App JS -->
+@vite(['resources/js/app.js'])

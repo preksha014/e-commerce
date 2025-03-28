@@ -9,18 +9,20 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\ProductController as UserProducts;
 use App\Http\Controllers\User\CategoryController as UserCategory;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\CheckoutController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', "index")->name('home');
     Route::get('/about', "about");
-    // Route::get('/contact', "contact");
 });
 
 Route::controller(UserProducts::class)->group(function () {
     Route::get('/catalog', "index");
     Route::get('/product-overview/{slug}', "show")->name('product.show');
 });
+
+Route::get('api/search', [SearchController::class, 'search']);
 
 Route::get('/category/{slug}', [UserCategory::class, 'show'])->name('category.show');
 
@@ -46,11 +48,11 @@ Route::middleware('auth:customer')->group(function () {
     Route::post('/checkout-review', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
     Route::view('/checkout-confimation', 'user.checkout-confirmation')->name('checkout.confirmation');
 
-    Route::get('/contact', [HomeController::class,'contact'])->name('contact');
-    Route::post('/contact-submit', [HomeController::class, 'submit'])->name('contact.submit');
-
     Route::get('/terms-condition',[PageController::class,'show'])->name('terms&conditions');
 });
 
 Route::get("signup", [UserRegister::class, "create"]);
 Route::post("signup", [UserRegister::class, "store"]);
+
+Route::get('/contact', [HomeController::class,'contact'])->name('contact');
+Route::post('/contact-submit', [HomeController::class, 'submit'])->name('contact.submit');

@@ -5,18 +5,31 @@
       alt="company logo" />
   </a>
 
-  <form class="hidden h-9 w-2/5 items-center border md:flex">
+  <form id="search-form" class="relative hidden h-9 w-2/5 items-center border border-gray-200 md:flex transition-all duration-200 ease-in-out focus-within:border-blue-500" autocomplete="off" data-debug="search-form">
+    <!-- Search Icon -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-      class="mx-3 h-4 w-4">
+      class="mx-3 h-4 w-4 text-gray-500">
       <path stroke-linecap="round" stroke-linejoin="round"
         d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-    </svg>  
-
-    <input class="hidden w-11/12 outline-none md:block" type="search" placeholder="Search" />
-
-    <button class="ml-auto h-full bg-amber-400 px-4 hover:bg-yellow-300">
-      Search
-    </button>
+    </svg>
+  
+    <!-- Search Input -->
+    <input 
+      id="search-input" 
+      name="query" 
+      class="w-full outline-none bg-transparent placeholder-gray-400 text-gray-800 focus:ring-0" 
+      type="search" 
+      placeholder="Search for products..." 
+      value="{{ $query ?? '' }}" 
+      data-debug="search-input"
+    />
+  
+    <!-- Search Results Dropdown -->
+    <div 
+      id="search-results" 
+      class="absolute left-0 right-0 top-full z-50 mt-1 hidden max-h-96 overflow-y-auto bg-white shadow-lg rounded-md border border-gray-100"
+      data-debug="search-results"
+    ></div>
   </form>
 
   @auth('customer')
