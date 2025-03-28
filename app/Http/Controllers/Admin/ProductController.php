@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -18,11 +19,69 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $products = Product::with('categories')->paginate(2);
+            $products = Product::with('categories')->paginate(10);
             $categories = Category::all();
             return view('dashboard.product.index', compact('products', 'categories'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while fetching products.');
+        }
+    }
+
+    /**
+     * Display a listing of trashed products.
+     */
+    public function trashed()
+    {
+        try {
+            $trashedProducts = Product::onlyTrashed()->with('categories')->paginate(10);
+            return view('dashboard.product. trashed', compact('trashedProducts'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while fetching trashed products.');
+        }
+    }
+
+    /**
+     * Restore the specified trashed product.
+     */
+    public function restore($id)
+    {
+        try {
+            // Find the trashed product
+            $product = Product::onlyTrashed()->findOrFail($id);
+            
+            // Restore the product
+            $product->restore();
+
+            return redirect()->route('admin.product.trashed')->with('success', 'Product restored successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while restoring the product.');
+        }
+    }
+
+    /**
+     * Permanently delete the product.
+     */
+    public function forceDelete($id)
+    {
+        try {
+            // Find the trashed product
+            $product = Product::onlyTrashed()->findOrFail($id);
+            
+            // Detach all related categories
+            $product->categories()->detach();
+            
+            // Delete all related images from storage
+            foreach ($product->images as $image) {
+                Storage::disk('public')->delete($image->image);
+                $image->delete();
+            }
+            
+            // Permanently delete the product
+            $product->forceDelete();
+
+            return redirect()->route('admin.product.trashed')->with('success', 'Product permanently deleted.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while permanently deleting the product.');
         }
     }
 
@@ -139,13 +198,10 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         try {
-            $product->categories()->detach();
-            foreach ($product->images as $image) {
-                Storage::disk('public')->delete($image->image);
-                $image->delete();
-            }
+            // Soft delete the product
             $product->delete();
-            return redirect()->route('admin.product')->with('success', 'Product deleted successfully!');
+            
+            return redirect()->route('admin.product')->with('success', 'Product moved to trash.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while deleting the product.');
         }

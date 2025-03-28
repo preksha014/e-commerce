@@ -1,4 +1,3 @@
-// resources/js/search.js
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -62,7 +61,7 @@ $(document).ready(function () {
         debouncedSearch(query);
     }).on('keydown', function (e) {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Prevent form submission
+            e.preventDefault();
             const query = $(this).val().trim();
             if (query) {
                 window.location.href = '/catalog?query=' + encodeURIComponent(query);

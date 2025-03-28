@@ -6,10 +6,16 @@
         <!-- Page Header -->
         <div class="flex items-center justify-between">
             <h2 class="text-3xl font-bold text-gray-700">Category Management</h2>
-            <a href="{{ route('admin.category.create') }}"
-                class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
-                + Add Category
-            </a>
+            <div class="flex space-x-3">
+                <a href="{{ route('admin.category.trashed') }}"
+                    class="bg-gray-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-gray-700 transition duration-200">
+                    <i class="fa-solid fa-trash"></i> Trash
+                </a>
+                <a href="{{ route('admin.category.create') }}"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
+                    + Add Category
+                </a>
+            </div>
         </div>
         @if(session('success'))
             <script>

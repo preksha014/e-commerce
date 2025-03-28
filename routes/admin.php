@@ -28,6 +28,11 @@ Route::prefix("admin")->group(function () {
             Route::get('/{product}/edit', [ProductController::class, 'edit'])->name("admin.product.edit");
             Route::patch('/{product}/update', [ProductController::class, 'update'])->name("admin.product.update");
             Route::delete('/{product}/delete', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+            
+            // Trashed products routes
+            Route::get('/trashed', [ProductController::class, 'trashed'])->name('admin.product.trashed');
+            Route::patch('/trashed/{id}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
+            Route::delete('/trashed/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('admin.product.force-delete');
         });
 
         Route::prefix("category")->group(function () {
@@ -37,6 +42,11 @@ Route::prefix("admin")->group(function () {
             Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name("admin.category.edit");
             Route::patch('/{category}/update', [CategoryController::class, 'update'])->name("admin.category.update");
             Route::delete('/{category}/delete', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+            
+            // Trashed categories routes
+            Route::get('/trashed', [CategoryController::class, 'trashed'])->name('admin.category.trashed');
+            Route::patch('/trashed/{id}/restore', [CategoryController::class, 'restore'])->name('admin.category.restore');
+            Route::delete('/trashed/{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('admin.category.force-delete');
         });
 
         Route::prefix("order")->group(function () {

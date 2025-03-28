@@ -6,10 +6,16 @@
         <!-- Page Header -->
         <div class="flex items-center justify-between">
             <h2 class="text-2xl font-bold text-gray-700">Products Management</h2>
-            <a href="{{ route('admin.product.create') }}"
-                class="bg-blue-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
-                + Add Product
-            </a>
+            <div class="flex space-x-3">
+                <a href="{{ route('admin.product.trashed') }}"
+                    class="bg-gray-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-gray-700 transition">
+                    <i class="fa-solid fa-trash"></i> Trash
+                </a>
+                <a href="{{ route('admin.product.create') }}"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
+                    + Add Product
+                </a>
+            </div>
         </div>
         @if(session('success'))
             <script>

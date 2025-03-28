@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -16,12 +17,72 @@ class CategoryController extends Controller
     {
         try {
             // Fetch all categories
-            $categories = Category::paginate(2);
+            $categories = Category::paginate(10);
 
             // Return view with all categories
             return view('dashboard.category.index', compact('categories'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while fetching categories.');
+        }
+    }
+
+    /**
+     * Display a listing of trashed categories.
+     */
+    public function trashed()
+    {
+        try {
+            // Fetch soft deleted categories
+            $trashedCategories = Category::onlyTrashed()->paginate(10);
+
+            // Return view with all trashed categories
+            return view('dashboard.category.trashed', compact('trashedCategories'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while fetching trashed categories.');
+        }
+    }
+
+    /**
+     * Restore the specified trashed category.
+     */
+    public function restore($id)
+    {
+        try {
+            // Find the trashed category
+            $category = Category::onlyTrashed()->findOrFail($id);
+            
+            // Restore the category
+            $category->restore();
+
+            return redirect()->route('admin.category.trashed')->with('success', 'Category restored successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while restoring the category.');
+        }
+    }
+
+    /**
+     * Permanently delete the category.
+     */
+    public function forceDelete($id)
+    {
+        try {
+            // Find the trashed category
+            $category = Category::onlyTrashed()->findOrFail($id);
+            
+            // Detach all related products
+            $category->products()->detach();
+
+            // Delete the category image from storage
+            if ($category->image) {
+                \Storage::delete('public/' . $category->image);
+            }
+            
+            // Permanently delete the category
+            $category->forceDelete();
+
+            return redirect()->route('admin.category.trashed')->with('success', 'Category permanently deleted.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while permanently deleting the category.');
         }
     }
 
@@ -103,19 +164,11 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         try {
-            // Detach all related products
-            $category->products()->detach();
-
-            // Delete the category image from storage
-            if ($category->image) {
-                \Storage::delete('public/' . $category->image);
-            }
-
-            // Delete the category
+            // Soft delete the category
             $category->delete();
 
             // Redirect back with a success message
-            return redirect()->route('admin.category')->with('success', 'Category deleted successfully.');
+            return redirect()->route('admin.category')->with('success', 'Category moved to trash.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while deleting the category.');
         }
