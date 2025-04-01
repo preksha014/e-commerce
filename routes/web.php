@@ -10,6 +10,7 @@ use App\Http\Controllers\User\ProductController as UserProducts;
 use App\Http\Controllers\User\CategoryController as UserCategory;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\User\SearchController;
+use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\CheckoutController;
 
 Route::controller(HomeController::class)->group(function () {
@@ -40,19 +41,27 @@ Route::middleware('auth:customer')->group(function () {
 
     Route::get('/checkout-address', [CheckoutController::class, 'showAddressPage'])->name('checkout.address.show');
     Route::post('/checkout-address', [CheckoutController::class, 'storeAddress'])->name('checkout.address.store');
-    
+
     Route::get('/checkout-payment', [CheckoutController::class, 'showPaymentPage'])->name('checkout.payment.show');
     Route::post('/checkout-payment', [CheckoutController::class, 'storePayment'])->name('checkout.payment.store');
-    
+
     Route::get('/checkout-review', [CheckoutController::class, 'showReviewPage'])->name('checkout.review');
     Route::post('/checkout-review', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
     Route::view('/checkout-confimation', 'user.checkout-confirmation')->name('checkout.confirmation');
 
-    Route::get('/terms-condition',[PageController::class,'show'])->name('terms&conditions');
+    Route::get('/terms-condition', [PageController::class, 'show'])->name('terms&conditions');
+
+    // Customer Account Routes
+    Route::prefix('account')->middleware('auth:customer')->group(function () {
+        Route::get('/profile', [CustomerController::class, 'profile'])->name('account.profile');
+        Route::get('/orders', [CustomerController::class, 'orders'])->name('account.orders');
+        Route::get('/profile/edit', [CustomerController::class, 'editProfile'])->name('account.profile.edit');
+        Route::patch('/profile/update', [CustomerController::class, 'updateProfile'])->name('account.profile.update');
+    });
 });
 
 Route::get("signup", [UserRegister::class, "create"]);
 Route::post("signup", [UserRegister::class, "store"]);
 
-Route::get('/contact', [HomeController::class,'contact'])->name('contact');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact-submit', [HomeController::class, 'submit'])->name('contact.submit');
