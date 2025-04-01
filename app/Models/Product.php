@@ -16,7 +16,7 @@ class Product extends Model
         'description',
         'price',
         'color',
-        'size', 
+        'size',
         'quantity',
         'status',
         'slug'
@@ -27,10 +27,18 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'product_categories');
     }
 
-    public function images(){
+    public function images()
+    {
         return $this->hasMany(ProductImages::class);
     }
-    public function order_items(){
+    public function order_items()
+    {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function isInWishlist()
+    {
+        $wishlist = session()->get('wishlist', []);
+        return isset($wishlist[$this->id]);
     }
 }

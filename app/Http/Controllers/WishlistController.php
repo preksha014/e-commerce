@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Wishlist;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class WishlistController extends Controller
 {
     public function index()
     {
-        $wishlistItems = Wishlist::where('user_id', Auth::id())
-            ->with('product')
-            ->get();
-            
-        return view('wishlist.index', compact('wishlistItems'));
+        $wishlist = session()->get('wishlist', []);
+        $products = Product::whereIn('id', array_keys($wishlist))->get();
+        return view('user.wishlist.index', compact('products'));
     }
 
     public function store(Request $request)
@@ -23,35 +20,37 @@ class WishlistController extends Controller
             'product_id' => 'required|exists:products,id'
         ]);
 
-        try {
-            Wishlist::create([
-                'user_id' => Auth::id(),
-                'product_id' => $request->product_id
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Product added to wishlist successfully'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Product is already in your wishlist'
-            ], 422);
-        }
+        $product = Product::findOrFail($request->product_id);
+        
+        $wishlist = session()->get('wishlist', []);
+        
+        // Add product to wishlist with timestamp
+        $wishlist[$product->id] = [
+            'name' => $product->name,
+            'price' => $product->price,
+            'added_at' => now()->toDateTimeString()
+        ];
+        
+        session()->put('wishlist', $wishlist);
+        
+        return redirect()->back()->with('success', 'Product added to wishlist!');
     }
 
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        $wishlistItem = Wishlist::where('user_id', Auth::id())
-            ->where('id', $id)
-            ->firstOrFail();
-
-        $wishlistItem->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Product removed from wishlist successfully'
-        ]);
+        $wishlist = session()->get('wishlist', []);
+        
+        if (isset($wishlist[$product_id])) {
+            unset($wishlist[$product_id]);
+            session()->put('wishlist', $wishlist);
+        }
+        
+        return redirect()->back()->with('success', 'Product removed from wishlist!');
     }
-} 
+
+    public function clear()
+    {
+        session()->forget('wishlist');
+        return redirect()->back()->with('success', 'Wishlist cleared!');
+    }
+}

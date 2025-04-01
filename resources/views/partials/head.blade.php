@@ -34,7 +34,7 @@
 
   @auth('customer')
   <div class="hidden gap-3 md:!flex">
-    <a href="#" class="flex cursor-pointer flex-col items-center justify-center">
+    <a href="{{ route('wishlist.index') }}" class="flex cursor-pointer flex-col items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="h-6 w-6">
         <path stroke-linecap="round" stroke-linejoin="round"
