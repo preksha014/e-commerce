@@ -24,7 +24,7 @@
             </div>
 
             <div class="pt-4 border-t border-gray-200">
-                <h3 class="text-sm font-medium text-gray-500 mb-3">Shipping Address</h3>
+                <h3 class="text-sm font-medium text-gray-500 mb-3"> Address</h3>
                 @if(auth()->guard('customer')->user()->address->isNotEmpty())
                     @foreach(auth()->guard('customer')->user()->address as $address)
                         <p class="text-gray-900">{{ $address->street }},<br>{{ $address->city }}, {{ $address->state }} {{ $address->zip_code }}</p>

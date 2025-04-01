@@ -26,7 +26,7 @@ class CustomerController extends Controller
         }
     }
 
-    // Display the Order History page
+    // Assuming this is in your controller class
     public function orders()
     {
         try {
@@ -35,10 +35,13 @@ class CustomerController extends Controller
                 return redirect()->route('login')->with('error', 'Please login to access your account.');
             }
 
-            $customer->load(['orders']);
-            return view('user.order-history', compact('customer'));
+            $orders = $customer->orders()->with('shippingAddress')->paginate(5);
+    
+            return view('user.order-history', compact('orders'));
+    
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while fetching order history.');
+            \Log::error('Failed to fetch order history: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while fetching order history: ' . $e->getMessage());
         }
     }
 

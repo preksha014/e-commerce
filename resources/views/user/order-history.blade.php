@@ -12,6 +12,7 @@
                         <tr class="bg-gray-100 border-b border-gray-200">
                             <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600">Status</th>
+                            <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600">Shipping Address</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600">Total</th>
                         </tr>
                     </thead>
@@ -31,6 +32,15 @@
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </td>
+                                <td class="py-4 px-6 text-gray-700">
+                                    @if($order->shippingAddress)
+                                        {{ $order->shippingAddress->recipient_name }}<br>
+                                        {{ $order->shippingAddress->street }}<br>
+                                        {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->zipcode }}
+                                    @else
+                                        <span class="text-gray-500">No shipping address</span>
+                                    @endif
+                                </td>
                                 <td class="py-4 px-6 text-gray-900 font-medium">${{ number_format($order->total_amount, 2) }}</td>
                             </tr>
                         @endforeach
@@ -42,5 +52,9 @@
                 <p class="text-gray-500">No orders found.</p>
             </div>
         @endif
+        <!-- Pagination Links -->
+        <div class="mt-4">
+            {{ $orders->links() }}
+        </div>
     </div>
 @endsection

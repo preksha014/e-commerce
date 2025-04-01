@@ -12,6 +12,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\User\WishlistController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', "index")->name('home');
@@ -58,6 +59,11 @@ Route::middleware('auth:customer')->group(function () {
         Route::get('/profile/edit', [CustomerController::class, 'editProfile'])->name('account.profile.edit');
         Route::patch('/profile/update', [CustomerController::class, 'updateProfile'])->name('account.profile.update');
     });
+
+    // Wishlist routes
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist.store');
+    Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 });
 
 Route::get("signup", [UserRegister::class, "create"]);
