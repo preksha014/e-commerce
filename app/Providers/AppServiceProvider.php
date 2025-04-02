@@ -31,5 +31,10 @@ class AppServiceProvider extends ServiceProvider
             
             $view->with('cart_count', $cart_count);
         });
+
+        View::composer('*', function ($view) {
+            $wishlistCount = count(session()->get('wishlist', []));
+            $view->with('wishlistCount', $wishlistCount);
+        }); 
     }
 }

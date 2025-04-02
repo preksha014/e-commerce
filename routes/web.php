@@ -64,6 +64,7 @@ Route::middleware('auth:customer')->group(function () {
     Route::post('/wishlist', [WishlistController::class, 'store'])->name('wishlist.store');
     Route::delete('/wishlist/{product_id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     Route::post('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishlist.clear');
+    Route::get('/wishlist/check-status', [WishlistController::class, 'checkStatus'])->name('wishlist.checkStatus');
 });
 
 Route::get("signup", [UserRegister::class, "create"]);

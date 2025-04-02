@@ -70,13 +70,16 @@
             </div>
 
             <div class="flex-1">
-              <button
-                class="w-full h-12 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition">
-                Wishlist
-              </button>
-            </div>
+              <form class="add-to-wishlist-form" data-product-id="{{ $product->id }}">
+                  @csrf
+                  <input type="hidden" name="product_id" value="{{ $product->id }}">
+                  <button type="submit"
+                          class="w-full h-12 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-500 transition">
+                      Wishlist
+                  </button>
+              </form>
+          </div>
           </div>
       </section>
     </main>
-
 </x-layout>

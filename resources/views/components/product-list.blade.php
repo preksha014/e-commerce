@@ -18,7 +18,7 @@
                     </span>
                 </a>
                 
-                <form action="{{ route('wishlist.store') }}" method="POST">
+                <form action="{{ route('wishlist.store') }}" method="POST" class="add-to-wishlist-form">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <button type="submit" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-amber-400">
