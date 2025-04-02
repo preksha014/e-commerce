@@ -31,7 +31,7 @@
       data-debug="search-results"
     ></div>
   </form>
-{{-- @dd($wishlistCount) --}}
+
   @auth('customer')
   <div class="hidden gap-3 md:!flex">
     <a href="{{ route('wishlist.index') }}" class="flex cursor-pointer flex-col items-center justify-center">

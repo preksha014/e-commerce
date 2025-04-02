@@ -1,6 +1,18 @@
 <x-layout>
   <x-slot:heading>Contact Us</x-slot:heading>
-  <x-banner :block="getBannerBlock('banner-contact')" />
+  {{-- <x-banner :block="getBannerBlock('banner-contact')" /> --}}
+  <x-banner :image="'src/assets/images/contact-bg.jpeg'">
+    <div
+      class="absolute top-1/2 left-1/2 mx-auto flex w-11/12 max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col text-center text-white lg:ml-5">
+      <h1 class="text-4xl font-bold sm:text-5xl">Contact us</h1>
+      <p class="mx-auto pt-3 text-xs lg:w-3/5 lg:pt-5 lg:text-base">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+        Consequatur aperiam natus, nulla, obcaecati nesciunt, itaque
+        adipisci earum ducimus pariatur eaque labore.
+      </p>
+    </div>
+    </div>
+  </x-banner>
 
   @if(session('success'))
     <p style="color: green;">{{ session('success') }}</p>
@@ -22,7 +34,8 @@
       </div>
     </div>
 
-    <textarea class="w-full border px-4 py-2" placeholder="Write a commentary..." name="message" id="message" required></textarea>
+    <textarea class="w-full border px-4 py-2" placeholder="Write a commentary..." name="message" id="message"
+      required></textarea>
 
     <div class="lg:items-center container mt-4 flex flex-col justify-between lg:flex-row">
       <div class="flex items-center">

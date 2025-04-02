@@ -24,15 +24,14 @@ Route::prefix("admin")->group(function () {
             Route::get('/', [ProductController::class, 'index'])->name("admin.product");
             Route::get('/create', [ProductController::class, 'create'])->name("admin.product.create");
             Route::post('/create', [ProductController::class, 'store'])->name("admin.product.store");
+            // Trashed products routes
+            Route::get('/trashed',[ProductController::class, 'trashed'])->name('admin.product.trashed');
+            Route::patch('/trashed/{id}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
+            Route::delete('/trashed/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('admin.product.force-delete');
             Route::get('/{product}', [ProductController::class, 'show'])->name("admin.product.show");
             Route::get('/{product}/edit', [ProductController::class, 'edit'])->name("admin.product.edit");
             Route::patch('/{product}/update', [ProductController::class, 'update'])->name("admin.product.update");
-            Route::delete('/{product}/delete', [ProductController::class, 'destroy'])->name('admin.product.destroy');
-            
-            // Trashed products routes
-            Route::get('/trashed', [ProductController::class, 'trashed'])->name('admin.product.trashed');
-            Route::patch('/trashed/{id}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
-            Route::delete('/trashed/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('admin.product.force-delete');
+            Route::delete('/{product}/delete', [ProductController::class, 'destroy'])->name('admin.product.destroy');   
         });
 
         Route::prefix("category")->group(function () {

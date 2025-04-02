@@ -20,7 +20,7 @@ Route::controller(HomeController::class)->group(function () {
 });
 
 Route::controller(UserProducts::class)->group(function () {
-    Route::get('/catalog', "index");
+    Route::get('/catalog', "index")->name('catalog');
     Route::get('/product-overview/{slug}', "show")->name('product.show');
 });
 

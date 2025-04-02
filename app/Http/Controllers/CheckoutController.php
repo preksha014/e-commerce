@@ -42,6 +42,7 @@ class CheckoutController extends Controller
                 $address = Address::findOrFail($request->address_id);
                 $addressData = $address->only(['street', 'city', 'zipcode', 'recipient_name']);
             } else {
+                // dd($request->all());
                 $request->validate([
                     'street' => 'required|string',
                     'city' => 'required|string',
@@ -49,7 +50,8 @@ class CheckoutController extends Controller
                     'recipient_name' => 'required|string'
                 ]);
                 $addressData = $request->only(['street', 'city', 'zipcode', 'recipient_name']);
-                $addressData['set_as_default'] = $request->has('set_as_default');
+                $addressData['set_as_default'] = $request['set_as_default'];
+                // dd($addressData['set_as_default']);
             }
 
             $this->checkoutService->storeAddress($addressData, $customerId);

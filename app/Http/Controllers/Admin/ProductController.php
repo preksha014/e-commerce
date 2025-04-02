@@ -34,7 +34,8 @@ class ProductController extends Controller
     {
         try {
             $trashedProducts = Product::onlyTrashed()->with('categories')->paginate(10);
-            return view('dashboard.product. trashed', compact('trashedProducts'));
+            // dd($trashedProducts);
+            return view('dashboard.product.trashed', compact('trashedProducts'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while fetching trashed products.');
         }
