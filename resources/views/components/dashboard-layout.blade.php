@@ -53,6 +53,21 @@
                     <i class="fas fa-users mr-3"></i>
                     <span>Customers</span>
                 </x-nav-link>
+                <x-nav-link href="{{ route('admin.admins.index') }}" :active="request()->is('admins*')"
+                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                    <i class="fas fa-users mr-3"></i>
+                    <span>Admins</span>
+                </x-nav-link>
+                <x-nav-link href="{{ route('admin.role') }}" :active="request()->is('admin/role*')"
+                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                    <i class="fas fa-users mr-3"></i>
+                    <span>Roles</span>
+                </x-nav-link>
+                <x-nav-link href="{{ route('admin.permission') }}" :active="request()->is('admin/permission*')"
+                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                    <i class="fas fa-users mr-3"></i>
+                    <span>Permissions</span>
+                </x-nav-link>
                 <x-nav-link href="{{ route('admin.block') }}" :active="request()->is('admin/block*')"
                     class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
                     <i class="fas fa-th-large mr-3"></i>

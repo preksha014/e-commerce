@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -9,7 +10,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\StaticBlockController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StaticPageController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Models\Contact;
 
 //Admin Routes
@@ -56,6 +59,42 @@ Route::prefix("admin")->group(function () {
         });
 
         Route::get('/customers', [CustomerController::class,'index'])->name("admin.customers");
+
+        Route::prefix('admins')->group(function(){
+            Route::get('/',[AdminController::class,'index'])->name('admin.admins.index');
+
+            Route::get('/create',[AdminController::class,'create'])->name('admin.admins.create');
+            Route::post('/create',[AdminController::class,'store'])->name('admin.admins.store');
+
+            Route::get('/{admin}/edit',[AdminController::class,'edit'])->name('admin.admins.edit');
+            Route::patch('/{admin}/update',[AdminController::class,'update'])->name('admin.admins.update');
+
+            Route::delete('/{admin}/delete',[AdminController::class,'destroy'])->name('admin.admins.destroy');
+        });
+
+        Route::prefix('role')->group(function(){
+            Route::get('/',[RoleController::class,'index'])->name('admin.role');
+
+            Route::get('/create',[RoleController::class,'create'])->name('admin.role.create');
+            Route::post('/create',[RoleController::class,'store'])->name('admin.role.store');
+
+            Route::get('/{role}/edit',[RoleController::class,'edit'])->name('admin.role.edit');
+            Route::patch('/{role}/update',[RoleController::class,'update'])->name('admin.role.update');
+
+            Route::delete('/{role}/delete',[RoleController::class,'destroy'])->name('admin.role.destroy');
+        });
+        
+        Route::prefix('permission')->group(function(){
+            Route::get('/',[PermissionController::class,'index'])->name('admin.permission');
+
+            Route::get('/create',[PermissionController::class,'create'])->name('admin.permission.create');
+            Route::post('/create',[PermissionController::class,'store'])->name('admin.permission.store');
+
+            Route::get('/{permission}/edit',[PermissionController::class,'edit'])->name('admin.permission.edit');
+            Route::patch('/{permission}/update',[PermissionController::class,'update'])->name('admin.permission.update');
+
+            Route::delete('/{permission}/delete',[PermissionController::class,'destroy'])->name('admin.permission.destroy');
+        });
 
         Route::prefix('block')->group(function(){
             Route::get('/',[StaticBlockController::class,'index'])->name('admin.block');

@@ -15,4 +15,9 @@ class Role extends Model
         "name",
         "is_super_admin"
     ];
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'role_permissions');
+    }
 }
