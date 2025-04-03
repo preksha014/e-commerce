@@ -1,29 +1,30 @@
 <x-dashboard-layout>
     <x-slot:heading>Create New Block</x-slot:heading>
 
-    <!-- Main Content -->
-    <div class="flex-grow p-4 space-y-6">
-        <!-- Form -->
-        <div class="bg-white p-4 rounded-lg shadow-lg">
+    <div class="flex-grow p-8 space-y-6">
+        <div class="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 border border-violet-100">
+            <h2 class="text-2xl font-bold text-violet-900 mb-6">Add New Block</h2>
             <form action="{{ route('admin.block.store') }}" method="POST" class="space-y-6">
                 @csrf
 
                 <!-- Title Field -->
-                <div class="flex flex-col space-y-1">
-                    <label for="title" class="text-md font-semibold text-gray-700">Title</label>
-                    <input type="text" name="title" id="title"
-                        class="w-full border block-title border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <div>
+                    <label for="title" class="block text-md font-medium text-gray-700">Block Title</label>
+                    <input type="text" id="title" name="title"
+                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                    @error('title')
+                        <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                @error('title')
-                    <p class="text-red-500">{{ $message }}</p>
-                @enderror
-
                 <!-- Slug Field -->
-                <div class="flex flex-col space-y-1">
-                    <label for="slug" class="text-md font-semibold text-gray-700">Slug</label>
-                    <input type="text" name="slug" id="slug"
-                        class="w-full border block-slug border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <div class="mt-4">
+                    <label for="slug" class="block text-md font-medium text-gray-700">Slug</label>
+                    <input type="text" id="slug" name="slug"
+                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                    @error('slug')
+                        <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Summernote Editor -->
@@ -40,7 +41,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="status" class="text-md font-semibold text-gray-700">Status</label>
                     <select name="status" id="status"
-                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                     </select>

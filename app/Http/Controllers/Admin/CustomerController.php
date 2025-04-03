@@ -13,7 +13,7 @@ class CustomerController extends Controller
     public function index()
     {
         try {
-            $customers = Customer::paginate(5);
+            $customers = Customer::paginate(4);
             return view('dashboard.customers', compact('customers'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while fetching customers.');

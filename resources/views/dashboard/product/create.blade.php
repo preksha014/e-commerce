@@ -1,21 +1,21 @@
 <x-dashboard-layout>
-    <x-slot name="heading">Product</x-slot>
+    <x-slot name="heading">Add Product</x-slot>
 
-    <div class="flex justify-center items-center flex-1 bg-gray-100">
-        <div class="w-full max-w-lg p-6 bg-white shadow-md rounded-lg border border-gray-300">
-            <h2 class="text-xl font-bold text-center text-gray-900 mb-4">Add Product</h2>
+    <div class="flex-grow p-8 space-y-6">
+        <div class="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 border border-violet-100">
+            <h2 class="text-2xl font-bold text-violet-900 mb-6">Product Details</h2>
             <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
-                    <input type="text" id="name" name="name" class="w-full mt-1 p-2 border rounded-md">
+                    <label for="name" class="block text-md font-medium text-gray-700">Product Name</label>
+                    <input type="text" id="name" name="name" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                     @error('name')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="mt-3">
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea id="description" name="description" class="w-full mt-1 p-2 border rounded-md"></textarea>
+                    <textarea id="description" name="description" rows="4" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none"></textarea>
                     @error('description')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
@@ -23,7 +23,7 @@
                 <div class="grid grid-cols-2 gap-3 mt-3">
                     <div>
                         <label for="size" class="block text-sm font-medium text-gray-700">Size</label>
-                        <input type="text" id="size" name="size" step="0.01" class="w-full mt-1 p-2 border rounded-md">
+                        <input type="text" id="size" name="size" step="0.01" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                         @error('size')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                         @enderror
@@ -31,7 +31,7 @@
 
                     <div>
                         <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
-                        <input type="text" id="color" name="color" class="w-full mt-1 p-2 border rounded-md">
+                        <input type="text" id="color" name="color" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                         @error('color')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                         @enderror
@@ -56,15 +56,14 @@
                 <div class="grid grid-cols-2 gap-3 mt-3">
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-700">Price ($)</label>
-                        <input type="number" id="price" name="price" step="0.01"
-                            class="w-full mt-1 p-2 border rounded-md">
+                        <input type="number" id="price" name="price" step="0.01" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                         @error('price')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
                         <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" class="w-full mt-1 p-2 border rounded-md">
+                        <input type="number" id="quantity" name="quantity" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                         @error('quantity')
                             <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                         @enderror
@@ -72,7 +71,7 @@
                 </div>
                 <div class="mt-3">
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                    <select id="status" name="status" class="w-full mt-1 p-2 border rounded-md bg-white">
+                    <select id="status" name="status" class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none bg-white">
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
@@ -82,8 +81,7 @@
                 </div>
                 <div class="mt-3">
                     <label for="images" class="block text-sm font-medium text-gray-700">Product Images</label>
-                    <input type="file" id="images" name="images[]" multiple 
-                           class="w-full mt-1 p-2 border rounded-md" accept="image/*">
+                    <input type="file" id="images" name="images[]" multiple class="w-full mt-2 p-3 border rounded-lg cursor-pointer focus:outline-none" accept="image/*">
                 
                     <!-- Image Previews Container -->
                     <div id="imagePreviewContainer" class="flex flex-wrap gap-2 mt-4"></div>
@@ -92,7 +90,7 @@
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <button type="submit" class="w-full py-2 bg-violet-800 text-white mt-4 text-md">Add Product</button>
+                <button type="submit" class="w-full py-3 px-4 bg-violet-600 hover:bg-violet-700 text-white mt-6 rounded-lg shadow-md transition duration-200 text-md font-semibold">Add Product</button>
             </form>
         </div>
     </div>

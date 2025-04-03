@@ -1,14 +1,15 @@
 <x-dashboard-layout>
     <x-slot:heading>Trashed Products</x-slot:heading>
 
-    <!-- Main Content -->
-    <div class="flex-grow p-8 space-y-6">
-        <!-- Page Header -->
-        <div class="flex items-center justify-between">
-            <h2 class="text-3xl font-bold text-gray-700">Trashed Products</h2>
+    <div class="p-8 space-y-8">
+        <!-- Header Section with Actions -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 bg-white p-6 rounded-xl shadow-sm">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800">Trashed Products</h2>
+            </div>
             <a href="{{ route('admin.product') }}"
-                class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
-                <i class="fa-solid fa-arrow-left"></i> Back to Products
+                class="inline-flex items-center px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors duration-200">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back to Products
             </a>
         </div>
         
@@ -21,37 +22,37 @@
         @endif
         
         <!-- Products Table -->
-        <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
             @if($trashedProducts->count() > 0)
-                <table class="w-full border-collapse border border-gray-300">
+                <table class="w-full whitespace-nowrap">
                     <thead>
-                        <tr class="bg-violet-300 text-left text-gray-700">
-                            <th class="py-3 px-4 border border-gray-300">Product Name</th>
-                            <th class="py-3 px-4 border border-gray-300">Category</th>
-                            <th class="py-3 px-4 border border-gray-300">Price</th>
-                            <th class="py-3 px-4 border border-gray-300">Status</th>
-                            <th class="py-3 px-4 border border-gray-300">Deleted At</th>
-                            <th class="py-3 px-4 border border-gray-300">Actions</th>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Product Name</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Deleted At</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($trashedProducts as $product)
-                            <tr class="even:bg-gray-100 text-gray-700">
-                                <td class="py-3 px-4 border border-gray-300">{{ $product->name }}</td>
-                                <td class="py-3 px-4 border border-gray-300">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-sm text-gray-700">{{ $product->name }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">
                                     {{ $product->categories->pluck('name')->join(', ') }}
                                 </td>
-                                <td class="py-3 px-4 border border-gray-300">{{ $product->price }}</td>
-                                <td class="py-3 px-4 border border-gray-300">
-                                    <span
-                                        class="px-4 py-2 rounded-full text-white font-semibold text-lg {{ $product->status ? 'bg-green-500' : 'bg-red-500' }}">
+                                <td class="px-6 py-4 text-sm text-gray-700">{{ $product->price }}</td>
+                                <td class="px-6 py-4 text-sm">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium {{ $product->status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ $product->status ? 'Active' : 'Inactive' }}
                                     </span>
                                 </td>
-                                <td class="py-3 px-4 border border-gray-300">
+                                <td class="px-6 py-4 text-sm text-gray-700">
                                     {{ $product->deleted_at->diffForHumans() }}
                                 </td>
-                                <td class="py-3 px-4 border border-gray-300 space-x-2">
+                                <td class="px-6 py-4 text-sm space-x-2">
                                     <button type="button"
                                         class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200"
                                         data-restore-open data-id="{{ $product->id }}">
@@ -150,4 +151,4 @@
             $('#forceDeleteModal').addClass('hidden');
         });
     });
-</script> 
+</script>

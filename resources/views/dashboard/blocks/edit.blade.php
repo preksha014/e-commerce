@@ -1,10 +1,8 @@
 <x-dashboard-layout>
     <x-slot:heading>Edit Block</x-slot:heading>
 
-    <!-- Main Content -->
-    <div class="flex-grow p-4 space-y-6">
-        <!-- Form -->
-        <div class="bg-white p-4 rounded-lg shadow-lg">
+    <div class="flex-grow p-8 space-y-6">
+        <div class="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 border border-violet-100">
             <form action="{{ route('admin.block.update', $data->slug) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PATCH')
@@ -13,7 +11,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="title" class="text-md font-semibold text-gray-700">Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title', $data->title) }}"
-                        class="w-full block-title border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                 </div>
                 @error('title')
                     <p class="text-red-500">{{ $message }}</p>
@@ -23,7 +21,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="slug" class="text-md font-semibold text-gray-700">Slug</label>
                     <input type="text" name="slug" id="slug" value="{{ old('slug', $data->slug) }}" readonly
-                        class="w-full block-slug border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                 </div>
 
                 <!-- Summernote Editor -->
@@ -39,7 +37,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="status" class="text-md font-semibold text-gray-700">Status</label>
                     <select name="status" id="status"
-                        class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none">
                         <option value="1" {{ old('status', $data->status) == '1' ? 'selected' : '' }}>Active</option>
                         <option value="0" {{ old('status', $data->status) == '0' ? 'selected' : '' }}>Inactive</option>
                     </select>

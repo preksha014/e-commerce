@@ -15,8 +15,7 @@ class DashboardController extends Controller
     public function index()
     {
         try {
-            $products = Product::paginate(1);
-            $orders = Order::with('customer')->paginate(2);
+            $orders = Order::with('customer')->paginate(4);
 
             // Count totals
             $totalProducts = Product::count();
@@ -24,7 +23,6 @@ class DashboardController extends Controller
             $totalCustomers = Customer::count();
 
             return view('dashboard.index', [
-                'products' => $products,
                 'orders' => $orders,
                 'totalProducts' => $totalProducts,
                 'totalOrders' => $totalOrders,

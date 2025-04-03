@@ -1,10 +1,13 @@
 <x-dashboard-layout>
     <x-slot:heading>Orders</x-slot:heading>
 
-    <!-- Main Content -->
-    <div class="flex-grow p-8 space-y-6">
-        <!-- Page Header -->
-        <h2 class="text-2xl font-bold text-gray-700">Orders Management</h2>
+    <div class="p-8 space-y-8">
+        <!-- Header Section with Actions -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 bg-white p-6 rounded-xl shadow-sm">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800">Orders Management</h2>
+            </div>
+        </div>
 
         @if(session('success'))
             <script>
@@ -15,34 +18,34 @@
         @endif
 
         <!-- Orders Table -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-violet-300 text-left text-gray-700">
-                        <th class="py-3 px-4 border border-gray-300">Customer Name</th>
-                        <th class="py-3 px-4 border border-gray-300">Total Amount</th>
-                        <th class="py-3 px-4 border border-gray-300">Status</th>
-                        <th class="py-3 px-4 border border-gray-300">Actions</th>
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+                <table class="w-full whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer Name</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Amount</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200">
                     @foreach ($orders as $order)
-                        <tr class="even:bg-gray-100 text-gray-700">
-                            <td class="py-3 px-4 border border-gray-300">{{$order->customer->name}}</td>
-                            <td class="py-3 px-4 border border-gray-300">{{number_format($order->total_amount)}} ₹</td>
-                            <td class="py-3 px-4 border border-gray-300">
-                                <span class="px-3 py-1 rounded-md shadow-md text-white
-                                    @if($order->status == 'pending') bg-yellow-500 
-                                    @elseif($order->status == 'delivered') bg-green-500 
-                                    @elseif($order->status == 'cancelled') bg-red-500 
-                                    @else bg-gray-500 @endif">
-                                    {{ $order->status }}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 text-sm text-gray-700">{{$order->customer->name}}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">{{number_format($order->total_amount)}} ₹</td>
+                            <td class="px-6 py-4 text-sm">
+                                <span class="px-3 py-1 rounded-full text-xs font-medium
+                                    @if($order->status == 'pending') bg-yellow-100 text-yellow-800
+                                    @elseif($order->status == 'delivered') bg-green-100 text-green-800
+                                    @elseif($order->status == 'cancelled') bg-red-100 text-red-800
+                                    @else bg-gray-100 text-gray-800 @endif">
+                                    {{ ucfirst($order->status) }}
                                 </span>
                             </td>
-
-                            <td class="py-3 px-4 border border-gray-300">
+                            <td class="px-6 py-4 text-sm">
                                 <a href="{{ route('admin.order.show', $order->id) }}"
-                                    class="bg-blue-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-blued-600 transition">
+                                    class="text-violet-600 hover:text-violet-900 transition-colors duration-200">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                             </td>
@@ -52,7 +55,7 @@
             </table>
         </div>
         <!-- Pagination Links -->
-        <div class="mt-4">
+        <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
             {{ $orders->links() }}
         </div>
     </div>

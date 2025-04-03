@@ -1,19 +1,20 @@
 <x-dashboard-layout>
     <x-slot:heading>Products</x-slot:heading>
 
-    <!-- Main Content -->
-    <div class="flex-grow p-8 space-y-6">
-        <!-- Page Header -->
-        <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-bold text-gray-700">Products Management</h2>
+    <div class="p-8 space-y-8">
+        <!-- Header Section with Actions -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 bg-white p-6 rounded-xl shadow-sm">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800">Products Management</h2>
+            </div>
             <div class="flex space-x-3">
                 <a href="{{ route('admin.product.trashed') }}"
-                    class="bg-gray-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-gray-700 transition">
-                    <i class="fa-solid fa-trash"></i> Trash
+                    class="px-4 py-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                    <i class="fa-solid fa-trash mr-2"></i>Trash
                 </a>
                 <a href="{{ route('admin.product.create') }}"
-                    class="bg-blue-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
-                    + Add Product
+                    class="px-4 py-2 bg-violet-50 text-violet-600 rounded-lg hover:bg-violet-100 transition-colors duration-200">
+                    <i class="fas fa-plus mr-2"></i>Add Product
                 </a>
             </div>
         </div>
@@ -25,53 +26,55 @@
             </script>
         @endif
         <!-- Products Table -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <table class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr class="bg-violet-300 text-left text-gray-700">
-                        <th class="py-3 px-4 border border-gray-300">Product Name</th>
-                        <th class="py-3 px-4 border border-gray-300">Category</th>
-                        <th class="py-3 px-4 border border-gray-300">Price</th>
-                        <th class="py-3 px-4 border border-gray-300">Status</th>
-                        <th class="py-3 px-4 border border-gray-300">Images</th>
-                        <th class="py-3 px-4 border border-gray-300">Actions</th>
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+                <table class="w-full whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Product Name</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Images</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200">
                     @foreach ($products as $product)
-                        <tr class="even:bg-gray-100 text-gray-700">
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->name }}</td>
-                            <td class="py-3 px-4 border border-gray-300">
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 text-sm text-gray-900">{{ $product->name }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-600">
                                 {{ $product->categories->pluck('name')->join(', ') }}
                             </td>
-                            <td class="py-3 px-4 border border-gray-300">{{ $product->price }}</td>
-                            <td class="py-3 px-4 border border-gray-300">
-                                <span
-                                    class="px-4 py-2 rounded-full text-white font-semibold text-lg {{ $product->status ? 'bg-green-500' : 'bg-red-500' }}">
+                            <td class="px-6 py-4 text-sm text-gray-900">{{ $product->price }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 text-sm rounded-full {{ $product->status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ $product->status ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
-                            <td class="py-3 px-4 border border-gray-300">
-                                @foreach ($product->images as $image)
-                                    <img src="{{ asset('storage/' . $image->image) }}" class="w-20 h-20 object-cover"
-                                        alt="Product Image">
-                                @endforeach
-
+                            <td class="px-6 py-4">
+                                <div class="flex -space-x-2">
+                                    @foreach ($product->images as $image)
+                                        <img src="{{ asset('storage/' . $image->image) }}" class="w-10 h-10 rounded-lg object-cover border-2 border-white"
+                                            alt="Product Image">
+                                    @endforeach
+                                </div>
                             </td>
-                            <td class="py-3 px-4 space-x-2 border border-gray-300">
-                                <a href="{{ route('admin.product.edit', $product->id) }}"
-                                    class="bg-green-500 text-white px-3 py-2 rounded-md shadow-md hover:bg-green-600 transition">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <a href="{{ route('admin.product.show', $product->id) }}"
-                                    class="bg-blue-500 text-white px-3 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                                <button type="button"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
-                                    data-action-open data-id="{{ $product->id }}">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                            <td class="px-6 py-4">
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('admin.product.edit', $product->id) }}"
+                                        class="p-2 bg-violet-50 text-violet-600 rounded-lg hover:bg-violet-100 transition-colors duration-200">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <a href="{{ route('admin.product.show', $product->id) }}"
+                                        class="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <button type="button"
+                                        class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200"
+                                        data-action-open data-id="{{ $product->id }}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                             </td>
                         </tr>
                     @endforeach

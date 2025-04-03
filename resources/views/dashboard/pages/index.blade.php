@@ -1,15 +1,18 @@
 <x-dashboard-layout>
     <x-slot:heading>Static Pages</x-slot:heading>
 
-    <!-- Main Content -->
-    <div class="flex-grow p-8 space-y-6">
-        <!-- Page Header -->
-        <div class="flex items-center justify-between">
-            <h2 class="text-3xl font-bold text-gray-700">Page Management</h2>
-            <a href="{{ route('admin.page.create') }}"
-                class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
-                + Add New Page
-            </a>
+    <div class="p-8 space-y-8">
+        <!-- Header Section with Actions -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 bg-white p-6 rounded-xl shadow-sm">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800">Page Management</h2>
+            </div>
+            <div class="flex space-x-3">
+                <a href="{{ route('admin.page.create') }}"
+                    class="px-4 py-2 bg-violet-50 text-violet-600 rounded-lg hover:bg-violet-100 transition-colors duration-200">
+                    <i class="fas fa-plus mr-2"></i>Add New Page
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
@@ -20,34 +23,45 @@
             </script>
         @endif
 
-        <!-- Settings Table -->
-        <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
-            <table class="w-full border-collapse border border-gray-300 text-center">
-                <thead>
-                    <tr class="bg-violet-300 text-gray-700 text-md">
-                        <th class="py-3 px-4 border border-gray-300">Title</th>
-                        <th class="py-3 px-4 border border-gray-300">Slug</th>
-                        <th class="py-3 px-4 border border-gray-300">Status</th>
-                        <th class="py-3 px-4 border border-gray-300">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($pages as $page)
-                        <tr class="even:bg-gray-100 text-gray-700">
-                            <td class="py-4 px-6 border border-gray-300 text-md font-semibold">{{ $page->title }}</td>
-                            <td class="py-3 px-6 border border-gray-300">{{ $page->slug }}</td>
-                            <td class="py-3 px-6 border border-gray-300">{{ $page->status }}</td>
-                            <td class="py-3 px-4 border border-gray-300 space-x-2">
-                                <a href="{{ route('admin.page.edit', $page->slug) }}"
-                                    class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <button type="button"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200"
-                                    data-action-open data-slug="{{ $page->slug }}">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </td>
+        <!-- Pages Table -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+                <table class="w-full whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Title</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Slug</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($pages as $page)
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-900">{{ $page->title }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-500">{{ $page->slug }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $page->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ ucfirst($page->status) }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <a href="{{ route('admin.page.edit', $page->slug) }}"
+                                            class="p-2 bg-violet-50 text-violet-600 rounded-lg hover:bg-violet-100 transition-colors duration-200">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <button type="button"
+                                            class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200"
+                                            data-action-open data-slug="{{ $page->slug }}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
                         </tr>
                     @endforeach
                 </tbody>

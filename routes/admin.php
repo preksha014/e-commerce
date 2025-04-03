@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\LoginController as AdminLogin;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\StaticBlockController;
 use App\Http\Controllers\Admin\StaticPageController;
 use App\Models\Contact;
@@ -82,10 +83,7 @@ Route::prefix("admin")->group(function () {
 
         Route::get('/reports', [DashboardController::class,'report'])->name("admin.reports");
         
-        Route::get('/admin/contacts', function () {
-            $contacts = Contact::latest()->get();
-            return view('dashboard.contacts', compact('contacts'));
-        })->name('admin.contacts');
+        Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
         
         Route::get('/logout', [AdminLogin::class, "logout"])->name("admin.logout");
     });
