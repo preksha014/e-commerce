@@ -1,1 +1,1 @@
-{!! getBannerBlock('banner-footer') !!}
+{!! getBannerBlock('footer') !!}

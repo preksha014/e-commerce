@@ -9,9 +9,9 @@
 
                 <!-- Title Field -->
                 <div>
-                    <label for="title" class="block text-md font-medium text-gray-700">Page Title</label>
+                    <label for="title" class="text-md font-medium text-gray-700">Page Title</label>
                     <input type="text" id="title" name="title"
-                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                        class="page-title w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
                     @error('title')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
@@ -19,9 +19,9 @@
 
                 <!-- Slug Field -->
                 <div class="mt-4">
-                    <label for="slug" class="block text-md font-medium text-gray-700">Slug</label>
+                    <label for="slug" class="text-md font-medium text-gray-700">Slug</label>
                     <input type="text" id="slug" name="slug"
-                        class="w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                        class="page-slug w-full mt-2 p-3 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:outline-none">
                     @error('slug')
                         <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror

@@ -9,5 +9,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Admin extends Authenticatable {
     use Notifiable;
     use HasFactory;
-    protected $table='admin';
+    protected $table='admins';
+
+    public $fillable = [
+        "name",
+        "email",
+        "password",
+        "role_id",
+        "status",
+    ];
 }
