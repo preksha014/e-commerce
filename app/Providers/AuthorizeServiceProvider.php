@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Permission;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Admin;
 
 class AuthorizeServiceProvider extends ServiceProvider
 {
@@ -22,19 +20,15 @@ class AuthorizeServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(function (Admin $admin) {
-            return $admin->isSuperAdmin() ? true : null;
+        Gate::before(function ($admin,$permission) {
+            return $admin->hasPermission($permission);
         });
 
-        //Fetch all permissions from the database
-        $permissions = Permission::all();
-
-        // Loop through each permission and define a gate
-        foreach ($permissions as $permission) {
-            Gate::define($permission->slug, function (Admin $admin) use ($permission) {
-                return $admin->hasPermission($permission->slug);
-            });
-        }
+        // foreach ($permissions as $permission) {
+        //     Gate::define($permission->slug, function (Admin $admin) use ($permission) {
+        //          return $admin->hasPermission($permission);
+        //     });
+        // }
         // Gate::define('manage-products', function (Admin $admin) {
         //     return $admin->hasPermission('manage-products');
         // });
@@ -65,6 +59,5 @@ class AuthorizeServiceProvider extends ServiceProvider
         // Gate::define('manage-customers', function (Admin $admin) {
         //     return $admin->hasPermission('manage-customers');
         // });
-
     }
 }

@@ -15,14 +15,22 @@
                         <p class="text-xs textd-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="mt-4">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="is_super_admin" id="is_super_admin" value="yes"
+                               class="rounded border-gray-300 text-violet-500 focus:ring-violet-500"
+                               {{ $role->is_super_admin === 'yes' ? 'checked' : '' }}>
+                        <span class="ml-2 text-md text-gray-700">Super Admin</span>
+                    </label>
+                </div>
                 <div class="mt-4 space-y-2">
-                    <label for="name" class="block text-md font-medium text-gray-700">Role Name</label>
+                    <label class="block text-md font-medium text-gray-700">Permissions</label>
                     @foreach($permissions as $permission)
                         <label class="inline-flex items-center block">
                             <input type="checkbox" 
                                    name="permissions[]" 
                                    value="{{ $permission->id }}"
-                                   class="rounded border-gray-300 text-violet-500 focus:ring-violet-500"
+                                   class="permission-checkbox rounded border-gray-300 text-violet-500 focus:ring-violet-500"
                                    {{ in_array($permission->id, old('permissions', $role->permissions->pluck('id')->toArray())) ? 'checked' : '' }}>
                             <span class="ml-2 text-md text-gray-700">{{ $permission->name }}</span>
                         </label>
@@ -41,4 +49,23 @@
             </form>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            const $superAdminCheckbox = $('#is_super_admin');
+            const $permissionCheckboxes = $('.permission-checkbox');
+
+            function updatePermissions() {
+                if ($superAdminCheckbox.is(':checked')) {
+                    $permissionCheckboxes.prop('checked', true).prop('disabled', true);
+                } else {
+                    $permissionCheckboxes.prop('disabled', false);
+                }
+            }
+
+            $superAdminCheckbox.on('change', updatePermissions);
+            
+            updatePermissions();
+        });
+    </script>
 </x-dashboard-layout>

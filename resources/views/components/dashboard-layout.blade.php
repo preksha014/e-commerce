@@ -21,114 +21,111 @@
 <body class="bg-gray-100">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <div class="bg-violet-900 text-white w-64 h-full shadow-xl overflow-y-auto">
+        <div class="bg-violet-900 text-white w-64 h-full shadow-xl overflow-y-auto text-sm flex flex-col">
+
             <!-- Logo Section -->
-            <div class="px-4 py-4 border-b border-violet-700/50">
-                <a href="admin/dashboard" class="flex items-center space-x-3">
-                    <img class="h-12 w-auto" src="{{ asset('src/assets/images/company-logo-inverted.svg') }}"
-                        alt="Company Logo" />
+            <div class="px-3 py-3 border-b border-violet-700/50">
+                <a href="admin/dashboard" class="flex items-center space-x-2">
+                    <img class="h-10 w-auto" src="{{ asset('src/assets/images/company-logo-inverted.svg') }}" alt="Company Logo" />
                 </a>
             </div>
             <!-- Navigation -->
-            <nav class="px-4 py-4 space-y-1.5">
-                <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->is('admin/dashboard')"
-                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                    <i class="fas fa-home mr-3"></i>
+            <nav class="px-3 py-2 space-y-1">
+                <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->is('admin/dashboard')" class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                    <i class="fas fa-home mr-2 text-sm"></i>
                     <span>Dashboard</span>
                 </x-nav-link>
                 @can('manage-products')
                     <x-nav-link href="{{ route('admin.product') }}" :active="request()->is('admin/product*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-box mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-box mr-2 text-sm"></i>
                         <span>Products</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-categories')
                     <x-nav-link href="{{ route('admin.category') }}" :active="request()->is('admin/category*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-tags mr-3"></i>
-                        <span>Category</span>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-tags mr-2 text-sm"></i>
+                        <span>Categories</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-orders')
                     <x-nav-link href="{{ route('admin.orders') }}" :active="request()->is('admin/order*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-shopping-cart mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-shopping-cart mr-2 text-sm"></i>
                         <span>Orders</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-customers')
                     <x-nav-link href="{{ route('admin.customers') }}" :active="request()->is('admin/customers*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-users mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-users mr-2 text-sm"></i>
                         <span>Customers</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-admins')
-                    <x-nav-link href="{{ route('admin.admins.index') }}" :active="request()->is('admins*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-users mr-3"></i>
+                    <x-nav-link href="{{ route('admin.admins.index') }}" :active="request()->is('admin/admins*')"
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-users-cog mr-2 text-sm"></i>
                         <span>Admins</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-roles')
                     <x-nav-link href="{{ route('admin.role') }}" :active="request()->is('admin/role*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-users mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-user-shield mr-2 text-sm"></i>
                         <span>Roles</span>
                     </x-nav-link>
                 @endcan
 
-
                 @can('manage-permissions')
                     <x-nav-link href="{{ route('admin.permission') }}" :active="request()->is('admin/permission*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-users mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-key mr-2 text-sm"></i>
                         <span>Permissions</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-static-blocks')
                     <x-nav-link href="{{ route('admin.block') }}" :active="request()->is('admin/block*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-th-large mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-th-large mr-2 text-sm"></i>
                         <span>Static Blocks</span>
                     </x-nav-link>
                 @endcan
 
                 @can('manage-static-pages')
                     <x-nav-link href="{{ route('admin.page') }}" :active="request()->is('admin/page*')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-file-alt mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-file-alt mr-2 text-sm"></i>
                         <span>Static Pages</span>
                     </x-nav-link>
                 @endcan
 
                 <x-nav-link href="{{ route('admin.reports') }}" :active="request()->is('admin/reports')"
-                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                    <i class="fas fa-chart-bar mr-3"></i>
+                    class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                    <i class="fas fa-chart-bar mr-2 text-sm"></i>
                     <span>Reports</span>
                 </x-nav-link>
 
                 @can('manage-contacts')
                     <x-nav-link href="{{ route('admin.contacts') }}" :active="request()->is('admin/contacts')"
-                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                        <i class="fas fa-envelope mr-3"></i>
+                        class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-envelope mr-2 text-sm"></i>
                         <span>Contacts</span>
                     </x-nav-link>
                 @endcan
-
             </nav>
             <!-- Logout Section -->
-            <div class="px-4 mt-6 border-t border-violet-800 py-4">
+            <div class="mt-auto px-3 border-t border-violet-800">
                 <x-nav-link href="{{ route('admin.logout') }}" :active="request()->is('admin/logout')"
-                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    class="flex items-center px-3 py-2 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                    <i class="fas fa-sign-out-alt mr-2 text-sm"></i>
                     <span>Logout</span>
                 </x-nav-link>
             </div>

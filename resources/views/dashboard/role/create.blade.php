@@ -14,6 +14,13 @@
                         <p class="text-xs textd-red-500 font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="mt-4">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="is_super_admin" value="yes"
+                               class="rounded border-gray-300 text-violet-500 focus:ring-violet-500">
+                        <span class="ml-2 text-md text-gray-700">Super Admin</span>
+                    </label>
+                </div>
                 <div class="mt-4 space-y-2">
                     <label for="name" class="block text-md font-medium text-gray-700">Role Name</label>
                     @foreach($permissions as $permission)

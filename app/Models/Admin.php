@@ -27,7 +27,6 @@ class Admin extends Authenticatable
     }
 
     public function isSuperAdmin() {
-        
         return $this->role->is_super_admin == Role::STATUS_YES ? true : false;
     }
 
