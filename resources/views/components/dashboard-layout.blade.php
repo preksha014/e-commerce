@@ -85,13 +85,15 @@
                 @endcan
 
 
-                <x-nav-link href="{{ route('admin.permission') }}" :active="request()->is('admin/permission*')"
-                    class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
-                    <i class="fas fa-users mr-3"></i>
-                    <span>Permissions</span>
-                </x-nav-link>
+                @can('manage-permissions')
+                    <x-nav-link href="{{ route('admin.permission') }}" :active="request()->is('admin/permission*')"
+                        class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Permissions</span>
+                    </x-nav-link>
+                @endcan
 
-                @can('manage-static-block')
+                @can('manage-static-blocks')
                     <x-nav-link href="{{ route('admin.block') }}" :active="request()->is('admin/block*')"
                         class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
                         <i class="fas fa-th-large mr-3"></i>
@@ -99,7 +101,7 @@
                     </x-nav-link>
                 @endcan
 
-                @can('manage-static-page')
+                @can('manage-static-pages')
                     <x-nav-link href="{{ route('admin.page') }}" :active="request()->is('admin/page*')"
                         class="flex items-center px-4 py-3 text-gray-100 hover:bg-violet-700/50 rounded-lg">
                         <i class="fas fa-file-alt mr-3"></i>

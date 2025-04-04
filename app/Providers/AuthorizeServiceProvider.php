@@ -26,36 +26,45 @@ class AuthorizeServiceProvider extends ServiceProvider
             return $admin->isSuperAdmin() ? true : null;
         });
 
-        Gate::define('manage-products', function (Admin $admin) {
-            return $admin->hasPermission('manage-products');
-        });
-        Gate::define('manage-categories', function (Admin $admin) {
-            return $admin->hasPermission('manage-categories');
-        });
-        Gate::define('manage-orders', function (Admin $admin) {
-            return $admin->hasPermission('manage-orders');
-        });
-        Gate::define('manage-contacts', function (Admin $admin) {
-            return $admin->hasPermission('manage-contacts');
-        });
-        Gate::define('manage-static-blocks', function (Admin $admin) {
-            return $admin->hasPermission('manage-static-blocks');
-        });
-        Gate::define('manage-static-pages', function (Admin $admin) {
-            return $admin->hasPermission('manage-static-pages');
-        });
-        Gate::define('manage-admins', function (Admin $admin) {
-            return $admin->hasPermission('manage-admins');
-        });
-        Gate::define('manage-roles', function (Admin $admin) {
-            return $admin->hasPermission('manage-roles');
-        });
-        Gate::define('manage-permissions', function (Admin $admin) {
-            return $admin->hasPermission('manage-permissions');
-        });
-        Gate::define('manage-customers', function (Admin $admin) {
-            return $admin->hasPermission('manage-customers');
-        });
-        
+        //Fetch all permissions from the database
+        $permissions = Permission::all();
+
+        // Loop through each permission and define a gate
+        foreach ($permissions as $permission) {
+            Gate::define($permission->slug, function (Admin $admin) use ($permission) {
+                return $admin->hasPermission($permission->slug);
+            });
+        }
+        // Gate::define('manage-products', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-products');
+        // });
+        // Gate::define('manage-categories', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-categories');
+        // });
+        // Gate::define('manage-orders', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-orders');
+        // });
+        // Gate::define('manage-contacts', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-contacts');
+        // });
+        // Gate::define('manage-static-blocks', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-static-blocks');
+        // });
+        // Gate::define('manage-static-pages', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-static-pages');
+        // });
+        // Gate::define('manage-admins', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-admins');
+        // });
+        // Gate::define('manage-roles', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-roles');
+        // });
+        // Gate::define('manage-permissions', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-permissions');
+        // });
+        // Gate::define('manage-customers', function (Admin $admin) {
+        //     return $admin->hasPermission('manage-customers');
+        // });
+
     }
 }
